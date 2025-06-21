@@ -1,0 +1,1270 @@
+<?php
+
+/**
+ * 
+ */
+class Institution_cron extends CI_Controller
+{
+
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->model('ss_aw_institutions_model');
+		$this->load->model('ss_aw_parents_model');
+		$this->load->model('ss_aw_child_course_model');
+		$this->load->model('ss_aw_childs_model');
+		$this->load->model('ss_aw_diagonastic_exam_model');
+		$this->load->model('ss_aw_diagnostic_complete_log_model');
+		$this->load->model('ss_aw_topics_complete_log_model');
+		$this->load->model('ss_aw_sections_topics_model');
+		$this->load->model('ss_aw_lessons_uploaded_model');
+		$this->load->model('ss_aw_child_last_lesson_model');
+		$this->load->model('ss_aw_assesment_questions_asked_model');
+		$this->load->model('ss_aw_assesment_multiple_question_asked_model');
+		$this->load->model('ss_aw_assessment_exam_completed_model');
+		$this->load->model('institution_cron_model');
+	}
+
+	public function winners_diagnostic_completed_on_time()
+	{
+		$institutions = $this->ss_aw_institutions_model->fetch_all();
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$institution_id = $value->ss_aw_id;
+				//here will check complete number updated or not date wise
+				$this->ss_aw_diagnostic_complete_log_model->removeprogramlog(1, $institution_id); {
+					$institution_parents = $this->ss_aw_parents_model->get_institutions_users($institution_id);
+					$institution_users_id = array();
+					if (!empty($institution_parents)) {
+						foreach ($institution_parents as $key => $value) {
+							$institution_users_id[] = $value->ss_aw_parent_id;
+						}
+					}
+					$winners_child = array();
+					$winners_child = $this->ss_aw_childs_model->get_users_by_parents_ary($institution_users_id);
+
+					$completed_on_time = 0;
+					$completed_on_time_users = array();
+
+					$completed_but_not_on_time = 0;
+					$completed_but_not_on_time_users = array();
+
+					$one_to_seven_delinquent = 0;
+					$one_to_seven_delinquent_users = array();
+
+					$eight_to_forteen_delinquent = 0;
+					$eight_to_forteen_delinquent_users = array();
+
+					$fifteen_plus_delinquent = 0;
+					$fifteen_plus_delinquent_users = array();
+
+					if (!empty($winners_child)) {
+						foreach ($winners_child as $child) {
+							$child_id = $child->ss_aw_child_id;
+							$child_course_details = $this->ss_aw_child_course_model->get_details($child_id);
+							if (!empty($child_course_details)) {
+								$child_activation_date = $child_course_details[count($child_course_details) - 1]['ss_aw_child_course_create_date'];
+								$child_activation_date = date('Y-m-d', strtotime($child_activation_date));
+								//diagnostic section
+								$diagnostic_exam_code_details = $this->ss_aw_diagonastic_exam_model->get_exam_details_by_child($child_id);
+								if (!empty($diagnostic_exam_code_details)) {
+									$diagnostic_complete_date = date('Y-m-d', strtotime($diagnostic_exam_code_details->ss_aw_diagonastic_exam_date));
+
+									$diff = strtotime($diagnostic_complete_date) - strtotime($child_activation_date);
+
+									$diffDay = round($diff / (60 * 60 * 24));
+
+									if ($diffDay <= 1) {
+										$completed_on_time++;
+										$completed_on_time_users[] = $child_id;
+									} else {
+										$completed_but_not_on_time++;
+										$completed_but_not_on_time_users[] = $child_id;
+									}
+								} else {
+									if ($diffDay > 1 && $diffDay <= 7) {
+										$one_to_seven_delinquent++;
+										$one_to_seven_delinquent_users[] = $child_id;
+									} elseif ($diffDay > 7 && $diffDay <= 14) {
+										$eight_to_forteen_delinquent++;
+										$eight_to_forteen_delinquent_users[] = $child_id;
+									} else {
+										$fifteen_plus_delinquent++;
+										$fifteen_plus_delinquent_users[] = $child_id;
+									}
+								}
+							}
+						}
+					}
+
+					$data = array();
+					$data['ss_aw_institution_id'] = $institution_id;
+					$data['ss_aw_program_type'] = 1;
+					$data['ss_aw_completed_on_time'] = $completed_on_time;
+					if (!empty($completed_on_time_users)) {
+						$data['ss_aw_completed_on_time_users'] = implode(",", $completed_on_time_users);
+					}
+					$data['ss_aw_completed_but_not_on_time'] = $completed_but_not_on_time;
+					if (!empty($completed_but_not_on_time_users)) {
+						$data['ss_aw_completed_but_not_on_time_users'] = implode(",", $completed_but_not_on_time_users);
+					}
+					$data['ss_aw_one_to_seven_delinquent'] = $one_to_seven_delinquent;
+					if (!empty($one_to_seven_delinquent_users)) {
+						$data['ss_aw_one_to_seven_delinquent_users'] = implode(",", $one_to_seven_delinquent_users);
+					}
+					$data['ss_aw_eight_to_forteen_delinquent'] = $eight_to_forteen_delinquent;
+					if (!empty($eight_to_forteen_delinquent_users)) {
+						$data['ss_aw_eight_to_forteen_delinquent_users'] = implode(",", $eight_to_forteen_delinquent_users);
+					}
+					$data['ss_aw_fifteen_plus_delinquent'] = $fifteen_plus_delinquent;
+					if (!empty($fifteen_plus_delinquent_users)) {
+						$data['ss_aw_fifteen_plus_delinquent_users'] = implode(",", $fifteen_plus_delinquent_users);
+					}
+					$data['ss_aw_created_date'] = date('Y-m-d');
+					$this->ss_aw_diagnostic_complete_log_model->add_logs($data);
+				}
+			}
+		}
+	}
+
+	public function masters_diagnostic_completed_on_time()
+	{
+		$institutions = $this->ss_aw_institutions_model->fetch_all();
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$institution_id = $value->ss_aw_id;
+				$this->ss_aw_diagnostic_complete_log_model->removeprogramlog(2, $institution_id); {
+					$institution_parents = $this->ss_aw_parents_model->get_institutions_users($institution_id);
+					$institution_users_id = array();
+					if (!empty($institution_parents)) {
+						foreach ($institution_parents as $key => $value) {
+							$institution_users_id[] = $value->ss_aw_parent_id;
+						}
+					}
+
+					$masters_child = array();
+					$masters_child = $this->ss_aw_childs_model->get_master_users_by_parents_ary($institution_users_id);
+
+					$completed_on_time = 0;
+					$completed_on_time_users = array();
+
+					$completed_but_not_on_time = 0;
+					$completed_but_not_on_time_users = array();
+
+					$one_to_seven_delinquent = 0;
+					$one_to_seven_delinquent_users = array();
+
+					$eight_to_forteen_delinquent = 0;
+					$eight_to_forteen_delinquent_users = array();
+
+					$fifteen_plus_delinquent = 0;
+					$fifteen_plus_delinquent_users = array();
+
+					if (!empty($masters_child)) {
+						foreach ($masters_child as $child) {
+							$child_id = $child->ss_aw_child_id;
+							$child_course_details = $this->ss_aw_child_course_model->get_details($child_id);
+							if (!empty($child_course_details)) {
+								$child_activation_date = $child_course_details[count($child_course_details) - 1]['ss_aw_child_course_create_date'];
+								$child_activation_date = date('Y-m-d', strtotime($child_activation_date));
+
+								//diagnostic section
+								$diagnostic_exam_code_details = $this->ss_aw_diagonastic_exam_model->get_exam_details_by_child($child_id);
+								if (!empty($diagnostic_exam_code_details)) {
+									$diagnostic_complete_date = date('Y-m-d', strtotime($diagnostic_exam_code_details->ss_aw_diagonastic_exam_date));
+
+									$diff = strtotime($diagnostic_complete_date) - strtotime($child_activation_date);
+
+									$diffDay = round($diff / (60 * 60 * 24));
+
+									if ($diffDay <= 1) {
+										$completed_on_time++;
+										$completed_on_time_users[] = $child_id;
+									} else {
+										$completed_but_not_on_time++;
+										$completed_but_not_on_time_users[] = $child_id;
+									}
+								} else {
+									$curDate = date('Y-m-d');
+									$diff = strtotime($curDate) - strtotime($child_activation_date);
+
+									$diffDay = round($diff / (60 * 60 * 24));
+
+									if ($diffDay > 1 && $diffDay <= 7) {
+										$one_to_seven_delinquent++;
+										$one_to_seven_delinquent_users[] = $child_id;
+									} elseif ($diffDay > 7 && $diffDay <= 14) {
+										$eight_to_forteen_delinquent++;
+										$eight_to_forteen_delinquent_users[] = $child_id;
+									} else {
+										$fifteen_plus_delinquent++;
+										$fifteen_plus_delinquent_users[] = $child_id;
+									}
+								}
+							}
+						}
+					}
+
+					$data = array();
+					$data['ss_aw_institution_id'] = $institution_id;
+					$data['ss_aw_program_type'] = 2;
+					$data['ss_aw_completed_on_time'] = $completed_on_time;
+					if (!empty($completed_on_time_users)) {
+						$data['ss_aw_completed_on_time_users'] = implode(",", $completed_on_time_users);
+					}
+					$data['ss_aw_completed_but_not_on_time'] = $completed_but_not_on_time;
+					if (!empty($completed_but_not_on_time_users)) {
+						$data['ss_aw_completed_but_not_on_time_users'] = implode(",", $completed_but_not_on_time_users);
+					}
+					$data['ss_aw_one_to_seven_delinquent'] = $one_to_seven_delinquent;
+					if (!empty($one_to_seven_delinquent_users)) {
+						$data['ss_aw_one_to_seven_delinquent_users'] = implode(",", $one_to_seven_delinquent_users);
+					}
+					$data['ss_aw_eight_to_forteen_delinquent'] = $eight_to_forteen_delinquent;
+					if (!empty($eight_to_forteen_delinquent_users)) {
+						$data['ss_aw_eight_to_forteen_delinquent_users'] = implode(",", $eight_to_forteen_delinquent_users);
+					}
+					$data['ss_aw_fifteen_plus_delinquent'] = $fifteen_plus_delinquent;
+					if (!empty($fifteen_plus_delinquent_users)) {
+						$data['ss_aw_fifteen_plus_delinquent_users'] = implode(",", $fifteen_plus_delinquent_users);
+					}
+					$data['ss_aw_created_date'] = date('Y-m-d');
+					$this->ss_aw_diagnostic_complete_log_model->add_logs($data);
+				}
+			}
+		}
+	}
+
+	public function winners_topics_completed_on_time(){
+		$institutions = $this->ss_aw_institutions_model->fetch_all();
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$instdata=array();
+				$institution_id='';
+				$institution_id = $value->ss_aw_id;
+				$expertise_level = 'E';
+				$programme_type = 1;
+				
+				$this->ss_aw_topics_complete_log_model->removeprogramlog($programme_type, $institution_id);
+				$instdata = $this->institution_cron_model->getinstitutionwisedata($institution_id, $expertise_level, $programme_type);
+				
+				if (!empty($instdata)) {
+					foreach ($instdata as $ins) {
+						$data = array();
+						$data['ss_aw_institution_id'] = $institution_id;
+						$data['ss_aw_program_type'] = $programme_type;
+						$data['ss_aw_lesson_id'] = $ins['ss_aw_lession_id'];
+						$data['ss_aw_completed_on_time'] = $ins['completed_on_time'];
+						if (!empty($ins['completed_on_time_users'])) {
+							$data['ss_aw_completed_on_time_users'] = $ins['completed_on_time_users'];
+						}
+						$data['ss_aw_completed_but_not_on_time'] = $ins['completed_but_not_on_time'];
+						if (!empty($ins['completed_but_not_on_time_users'])) {
+							$data['ss_aw_completed_but_not_on_time_users'] = $ins['completed_but_not_on_time_users'];
+						}
+						$data['ss_aw_one_to_seven_delinquent'] = $ins['one_to_seven_delinquent'];
+						if (!empty($ins['one_to_seven_delinquent_users'])) {
+							$data['ss_aw_one_to_seven_delinquent_users'] = $ins['one_to_seven_delinquent_users'];
+						}
+						$data['ss_aw_eight_to_forteen_delinquent'] = $ins['eight_to_forteen_delinquent'];
+						if (!empty($ins['eight_to_forteen_delinquent_users'])) {
+							$data['ss_aw_eight_to_forteen_delinquent_users'] = $ins['eight_to_forteen_delinquent_users'];
+						}
+						$data['ss_aw_fifteen_plus_delinquent'] = $ins['fifteen_plus_delinquent'];
+						if (!empty($ins['fifteen_plus_delinquent_users'])) {
+							$data['ss_aw_fifteen_plus_delinquent_users'] = $ins['fifteen_plus_delinquent_users'];
+						}
+						$data['ss_aw_created_date'] = date('Y-m-d');
+						$this->ss_aw_topics_complete_log_model->add_logs($data);
+					}
+				}
+			}
+		}
+		echo "done";
+	}
+	public function winners_topics_completed_on_time_old()
+	{
+		$topic_listary = array();
+		$general_language_lessons = array();
+		//get all topics
+		$search_data = array();
+		$search_data['ss_aw_expertise_level'] = 'E';
+		$topic_listary = $this->ss_aw_sections_topics_model->get_all_records(0, 0, $search_data);
+		//get comprehensions
+		$general_language_lessons = $this->ss_aw_lessons_uploaded_model->get_winners_general_language_lessons();
+		$topicAry = array();
+		if (!empty($topic_listary)) {
+			foreach ($topic_listary as $key => $value) {
+				$topicAry[] = $value->ss_aw_section_id;
+			}
+		}
+		$topical_lessons = $this->ss_aw_lessons_uploaded_model->get_lessonlist_by_topics($topicAry);
+		$lesson_listary = array_merge($topical_lessons, $general_language_lessons);
+
+		$institutions = $this->ss_aw_institutions_model->fetch_all();
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$institution_id = $value->ss_aw_id;
+				//here will check complete number updated or not date wise
+				$this->ss_aw_topics_complete_log_model->removeprogramlog(1, $institution_id); {
+					$institution_parents = $this->ss_aw_parents_model->get_institutions_users($institution_id);
+					$institution_users_id = array();
+					if (!empty($institution_parents)) {
+						foreach ($institution_parents as $key => $value) {
+							$institution_users_id[] = $value->ss_aw_parent_id;
+						}
+					}
+					$winners_child = array();
+					$winners_child = $this->ss_aw_childs_model->get_users_by_parents_ary($institution_users_id);
+
+					if (!empty($lesson_listary)) {
+						$lesson_count = 0;
+						foreach ($lesson_listary as $lesson_topic) {
+
+							$completed_on_time = 0;
+							$completed_on_time_users = array();
+
+							$completed_but_not_on_time = 0;
+							$completed_but_not_on_time_users = array();
+
+							$one_to_seven_delinquent = 0;
+							$one_to_seven_delinquent_users = array();
+
+							$eight_to_forteen_delinquent = 0;
+							$eight_to_forteen_delinquent_users = array();
+
+							$fifteen_plus_delinquent = 0;
+							$fifteen_plus_delinquent_users = array();
+
+							$lesson_count++;
+							$lesson_id = $lesson_topic['ss_aw_lession_id'];
+
+							if (!empty($winners_child)) {
+								foreach ($winners_child as $child) {
+									$child_id = $child->ss_aw_child_id;
+									$diagnostic_exam_code_details = $this->ss_aw_diagonastic_exam_model->get_exam_details_by_child($child_id);
+									if (!empty($diagnostic_exam_code_details)) {
+										//course enrolled date.
+										$child_activation_date = date('Y-m-d', strtotime($diagnostic_exam_code_details->ss_aw_diagonastic_exam_date)); {
+											$prev_lesson_id = $lesson_listary[$lesson_count - 1]['ss_aw_lession_id'];
+											$lesson_complete_details = $this->ss_aw_child_last_lesson_model->get_details_by_lesson($prev_lesson_id, $child_id);
+											if (!empty($lesson_complete_details->ss_aw_last_lesson_create_date)) {
+												$child_activation_date = $lesson_complete_details->ss_aw_last_lesson_create_date;
+											} else {
+												$child_activation_date = "";
+											}
+										}
+										//assessment section
+										$assessment_id = "";
+										$topical_assessment_start_details = $this->ss_aw_assesment_questions_asked_model->check_exam_start($child_id, $lesson_topic['ss_aw_lession_id']);
+										if (!empty($topical_assessment_start_details)) {
+											$assessment_id = $topical_assessment_start_details[0]->ss_aw_assessment_id;
+										} else {
+											$comprehension_assessment_start_details = $this->ss_aw_assesment_multiple_question_asked_model->check_exam_start($child_id, $value->ss_aw_lesson_id);
+											$assessment_id = $comprehension_assessment_start_details[0]->ss_aw_assessment_id;
+										}
+
+										$assessment_completetion_details = $this->ss_aw_assessment_exam_completed_model->get_assessment_completion_details($assessment_id, $child_id);
+										$assessment_complete_date = "";
+										if (!empty($assessment_completetion_details)) {
+											$assessment_complete_date = date('Y-m-d', strtotime($assessment_completetion_details[0]->ss_aw_create_date));
+										} {
+											if (!empty($child_activation_date)) {
+												if (!empty($assessment_complete_date)) {
+													$diff = strtotime($assessment_complete_date) - strtotime($child_activation_date);
+													$diffDay = round($diff / (60 * 60 * 24));
+													if ($diffDay <= 7) {
+														$completed_on_time++;
+														$completed_on_time_users[] = $child_id;
+													} else {
+														$completed_but_not_on_time++;
+														$completed_but_not_on_time_users[] = $child_id;
+													}
+												} else {
+													$current_date = date('Y-m-d');
+													$diff = strtotime($current_date) - strtotime($child_activation_date);
+													$diffDay = round($diff / (60 * 60 * 24));
+													if ($diffDay > 7 && $diffDay <= 14) {
+														$one_to_seven_delinquent++;
+														$one_to_seven_delinquent_users[] = $child_id;
+													} elseif ($diffDay > 14 && $diffDay <= 21) {
+														$eight_to_forteen_delinquent++;
+														$eight_to_forteen_delinquent_users[] = $child_id;
+													} elseif ($diffDay > 21) {
+														$fifteen_plus_delinquent++;
+														$fifteen_plus_delinquent_users[] = $child_id;
+													} else {
+														//0-7 days.
+													}
+												}
+											}
+										}
+										//end	
+									}
+								}
+							}
+
+							$data = array();
+							$data['ss_aw_institution_id'] = $institution_id;
+							$data['ss_aw_program_type'] = 1;
+							$data['ss_aw_lesson_id'] = $lesson_id;
+							$data['ss_aw_completed_on_time'] = $completed_on_time;
+							if (!empty($completed_on_time_users)) {
+								$data['ss_aw_completed_on_time_users'] = implode(",", $completed_on_time_users);
+							}
+							$data['ss_aw_completed_but_not_on_time'] = $completed_but_not_on_time;
+							if (!empty($completed_but_not_on_time_users)) {
+								$data['ss_aw_completed_but_not_on_time_users'] = implode(",", $completed_but_not_on_time_users);
+							}
+							$data['ss_aw_one_to_seven_delinquent'] = $one_to_seven_delinquent;
+							if (!empty($one_to_seven_delinquent_users)) {
+								$data['ss_aw_one_to_seven_delinquent_users'] = implode(",", $one_to_seven_delinquent_users);
+							}
+							$data['ss_aw_eight_to_forteen_delinquent'] = $eight_to_forteen_delinquent;
+							if (!empty($eight_to_forteen_delinquent_users)) {
+								$data['ss_aw_eight_to_forteen_delinquent_users'] = implode(",", $eight_to_forteen_delinquent_users);
+							}
+							$data['ss_aw_fifteen_plus_delinquent'] = $fifteen_plus_delinquent;
+							if (!empty($fifteen_plus_delinquent_users)) {
+								$data['ss_aw_fifteen_plus_delinquent_users'] = implode(",", $fifteen_plus_delinquent_users);
+							}
+							$data['ss_aw_created_date'] = date('Y-m-d');
+							$this->ss_aw_topics_complete_log_model->add_logs($data);
+						}
+					}
+				}
+			}
+		}
+	}
+	public function masters_topics_completed_on_time()
+	{
+
+		$institutions = $this->ss_aw_institutions_model->fetch_all();		
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$instdata=array();
+				$institution_id='';
+				$institution_id = $value->ss_aw_id;
+				$expertise_level = 'A,M';
+				$programme_type = 2;
+				
+				$this->ss_aw_topics_complete_log_model->removeprogramlog($programme_type, $institution_id);
+				$instdata = $this->institution_cron_model->getinstitutionwisedata($institution_id, $expertise_level, $programme_type);
+				
+				if (!empty($instdata)) {
+					foreach ($instdata as $ins) {
+						$data = array();
+						$data['ss_aw_institution_id'] = $institution_id;
+						$data['ss_aw_program_type'] = $programme_type;
+						$data['ss_aw_lesson_id'] = $ins['ss_aw_lession_id'];
+						$data['ss_aw_completed_on_time'] = $ins['completed_on_time'];
+						if (!empty($ins['completed_on_time_users'])) {
+							$data['ss_aw_completed_on_time_users'] = $ins['completed_on_time_users'];
+						}
+						$data['ss_aw_completed_but_not_on_time'] = $ins['completed_but_not_on_time'];
+						if (!empty($ins['completed_but_not_on_time_users'])) {
+							$data['ss_aw_completed_but_not_on_time_users'] = $ins['completed_but_not_on_time_users'];
+						}
+						$data['ss_aw_one_to_seven_delinquent'] = $ins['one_to_seven_delinquent'];
+						if (!empty($ins['one_to_seven_delinquent_users'])) {
+							$data['ss_aw_one_to_seven_delinquent_users'] = $ins['one_to_seven_delinquent_users'];
+						}
+						$data['ss_aw_eight_to_forteen_delinquent'] = $ins['eight_to_forteen_delinquent'];
+						if (!empty($ins['eight_to_forteen_delinquent_users'])) {
+							$data['ss_aw_eight_to_forteen_delinquent_users'] = $ins['eight_to_forteen_delinquent_users'];
+						}
+						$data['ss_aw_fifteen_plus_delinquent'] = $ins['fifteen_plus_delinquent'];
+						if (!empty($ins['fifteen_plus_delinquent_users'])) {
+							$data['ss_aw_fifteen_plus_delinquent_users'] = $ins['fifteen_plus_delinquent_users'];
+						}
+						$data['ss_aw_created_date'] = date('Y-m-d');
+						$this->ss_aw_topics_complete_log_model->add_logs($data);
+					}
+				}
+			}
+		}
+	}
+
+	public function masters_topics_completed_on_time_old()
+	{
+		$topic_listary = array();
+		$general_language_lessons = array();
+		//get all topics
+		$search_data = array();
+		$search_data['ss_aw_expertise_level'] = 'A,M';
+		$topic_listary = $this->ss_aw_sections_topics_model->get_all_records(0, 0, $search_data);
+		$topicAry = array();
+		if (!empty($topic_listary)) {
+			foreach ($topic_listary as $key => $value) {
+				$topicAry[] = $value->ss_aw_section_id;
+			}
+		}
+		$topical_lessons = $this->ss_aw_lessons_uploaded_model->get_lessonlist_by_topics($topicAry);
+		$lesson_listary = array_merge($topical_lessons, $general_language_lessons);
+
+		$institutions = $this->ss_aw_institutions_model->fetch_all();
+
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$institution_id = $value->ss_aw_id;
+				//here will check complete number updated or not date wise
+				$this->ss_aw_topics_complete_log_model->removeprogramlog(2, $institution_id); {
+					$institution_parents = $this->ss_aw_parents_model->get_institutions_users($institution_id);
+					$institution_users_id = array();
+					if (!empty($institution_parents)) {
+						foreach ($institution_parents as $key => $value) {
+							$institution_users_id[] = $value->ss_aw_parent_id;
+						}
+					}
+					$masters_child = array();
+					$masters_child = $this->ss_aw_childs_model->get_master_users_by_parents_ary($institution_users_id);
+
+					if (!empty($lesson_listary)) {
+						$lesson_count = 0;
+						foreach ($lesson_listary as $lesson_topic) {
+
+							$completed_on_time = 0;
+							$completed_on_time_users = array();
+
+							$completed_but_not_on_time = 0;
+							$completed_but_not_on_time_users = array();
+
+							$one_to_seven_delinquent = 0;
+							$one_to_seven_delinquent_users = array();
+
+							$eight_to_forteen_delinquent = 0;
+							$eight_to_forteen_delinquent_users = array();
+
+							$fifteen_plus_delinquent = 0;
+							$fifteen_plus_delinquent_users = array();
+
+							$lesson_count++;
+							$lesson_id = $lesson_topic['ss_aw_lession_id'];
+
+							if (!empty($masters_child)) {
+								foreach ($masters_child as $i => $child) {
+									$child_id = $child->ss_aw_child_id;
+									//diagnostic section
+									$diagnostic_exam_code_details = $this->ss_aw_diagonastic_exam_model->get_exam_details_by_child($child_id);
+									if (!empty($diagnostic_exam_code_details)) {
+										//course enrolled date.
+										$child_activation_date = date('Y-m-d', strtotime($diagnostic_exam_code_details->ss_aw_diagonastic_exam_date)); {
+
+											$prev_lesson_id = $lesson_listary[$lesson_count - 1]['ss_aw_lession_id'];
+											$lesson_complete_details = $this->ss_aw_child_last_lesson_model->get_details_by_lesson($prev_lesson_id, $child_id);
+											//get lesson start date.
+											if (!empty($lesson_complete_details->ss_aw_last_lesson_create_date)) {
+												$child_activation_date = $lesson_complete_details->ss_aw_last_lesson_create_date;
+											} else {
+												$child_activation_date = "";
+											}
+										}
+
+										//assessment section
+										$assessment_id = "";
+										$topical_assessment_start_details = $this->ss_aw_assesment_questions_asked_model->check_exam_start($child_id, $lesson_topic['ss_aw_lession_id']);
+										if (!empty($topical_assessment_start_details)) {
+											$assessment_id = $topical_assessment_start_details[0]->ss_aw_assessment_id;
+										} else {
+											$comprehension_assessment_start_details = $this->ss_aw_assesment_multiple_question_asked_model->check_exam_start($child_id, $value->ss_aw_lesson_id);
+											$assessment_id = @$comprehension_assessment_start_details[0]->ss_aw_assessment_id;
+										}
+
+										$assessment_completetion_details = $this->ss_aw_assessment_exam_completed_model->get_assessment_completion_details($assessment_id, $child_id);
+										$assessment_complete_date = "";
+										if (!empty($assessment_completetion_details)) {
+											$assessment_complete_date = date('Y-m-d', strtotime($assessment_completetion_details[0]->ss_aw_create_date));
+										} {
+											if (!empty($child_activation_date)) {
+												if (!empty($assessment_complete_date)) {
+													$diff = strtotime($assessment_complete_date) - strtotime($child_activation_date);
+													$diffDay = round($diff / (60 * 60 * 24));
+													if ($diffDay <= 7) {
+														$completed_on_time++;
+														$completed_on_time_users[] = $child_id;
+													} else {
+														$completed_but_not_on_time++;
+														$completed_but_not_on_time_users[] = $child_id;
+													}
+												} else {
+													$current_date = date('Y-m-d');
+													$diff = strtotime($current_date) - strtotime($child_activation_date);
+													$diffDay = round($diff / (60 * 60 * 24));
+
+													if ($diffDay > 7 && $diffDay <= 14) {
+														$one_to_seven_delinquent++;
+														$one_to_seven_delinquent_users[] = $child_id;
+													} elseif ($diffDay > 14 && $diffDay <= 21) {
+														$eight_to_forteen_delinquent++;
+														$eight_to_forteen_delinquent_users[] = $child_id;
+													} elseif ($diffDay > 21) {
+														$fifteen_plus_delinquent++;
+														$fifteen_plus_delinquent_users[] = $child_id;
+													} else {
+														// 0-7 days.
+													}
+												}
+											}
+										}
+										//end	
+									}
+								}
+							}
+
+							$data = array();
+							$data['ss_aw_institution_id'] = $institution_id;
+							$data['ss_aw_program_type'] = 2;
+							$data['ss_aw_lesson_id'] = $lesson_id;
+							$data['ss_aw_completed_on_time'] = $completed_on_time;
+							if (!empty($completed_on_time_users)) {
+								$data['ss_aw_completed_on_time_users'] = implode(",", $completed_on_time_users);
+							}
+							$data['ss_aw_completed_but_not_on_time'] = $completed_but_not_on_time;
+							if (!empty($completed_but_not_on_time_users)) {
+								$data['ss_aw_completed_but_not_on_time_users'] = implode(",", $completed_but_not_on_time_users);
+							}
+							$data['ss_aw_one_to_seven_delinquent'] = $one_to_seven_delinquent;
+							if (!empty($one_to_seven_delinquent_users)) {
+								$data['ss_aw_one_to_seven_delinquent_users'] = implode(",", $one_to_seven_delinquent_users);
+							}
+							$data['ss_aw_eight_to_forteen_delinquent'] = $eight_to_forteen_delinquent;
+							if (!empty($eight_to_forteen_delinquent_users)) {
+								$data['ss_aw_eight_to_forteen_delinquent_users'] = implode(",", $eight_to_forteen_delinquent_users);
+							}
+							$data['ss_aw_fifteen_plus_delinquent'] = $fifteen_plus_delinquent;
+							if (!empty($fifteen_plus_delinquent_users)) {
+								$data['ss_aw_fifteen_plus_delinquent_users'] = implode(",", $fifteen_plus_delinquent_users);
+							}
+							$data['ss_aw_created_date'] = date('Y-m-d');
+							$this->ss_aw_topics_complete_log_model->add_logs($data);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public function winners_diagnostic_completed_on_time_for_active_users()
+	{
+		$institutions = $this->ss_aw_institutions_model->fetch_all();
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$institution_id = $value->ss_aw_id;
+				//here will check complete number updated or not date wise
+				$this->ss_aw_diagnostic_complete_log_model->removeprogramlog(1, $institution_id, 1); {
+					$institution_parents = $this->ss_aw_parents_model->get_institutions_users($institution_id);
+					$institution_users_id = array();
+					if (!empty($institution_parents)) {
+						foreach ($institution_parents as $key => $value) {
+							$institution_users_id[] = $value->ss_aw_parent_id;
+						}
+					}
+					$winners_child = array();
+					$winners_child = $this->ss_aw_childs_model->get_users_by_parents_ary($institution_users_id, "", "", "", 1);
+
+					$completed_on_time = 0;
+					$completed_on_time_users = array();
+
+					$completed_but_not_on_time = 0;
+					$completed_but_not_on_time_users = array();
+
+					$one_to_seven_delinquent = 0;
+					$one_to_seven_delinquent_users = array();
+
+					$eight_to_forteen_delinquent = 0;
+					$eight_to_forteen_delinquent_users = array();
+
+					$fifteen_plus_delinquent = 0;
+					$fifteen_plus_delinquent_users = array();
+
+					if (!empty($winners_child)) {
+						foreach ($winners_child as $child) {
+							$child_id = $child->ss_aw_child_id;
+							$child_course_details = $this->ss_aw_child_course_model->get_details($child_id);
+							if (!empty($child_course_details)) {
+								$child_activation_date = $child_course_details[count($child_course_details) - 1]['ss_aw_child_course_create_date'];
+								$child_activation_date = date('Y-m-d', strtotime($child_activation_date));
+								//diagnostic section
+								$diagnostic_exam_code_details = $this->ss_aw_diagonastic_exam_model->get_exam_details_by_child($child_id);
+								if (!empty($diagnostic_exam_code_details)) {
+									$diagnostic_complete_date = date('Y-m-d', strtotime($diagnostic_exam_code_details->ss_aw_diagonastic_exam_date));
+
+									$diff = strtotime($diagnostic_complete_date) - strtotime($child_activation_date);
+
+									$diffDay = round($diff / (60 * 60 * 24));
+
+									if ($diffDay <= 1) {
+										$completed_on_time++;
+										$completed_on_time_users[] = $child_id;
+									} else {
+										$completed_but_not_on_time++;
+										$completed_but_not_on_time_users[] = $child_id;
+									}
+								} else {
+									if ($diffDay > 1 && $diffDay <= 7) {
+										$one_to_seven_delinquent++;
+										$one_to_seven_delinquent_users[] = $child_id;
+									} elseif ($diffDay > 7 && $diffDay <= 14) {
+										$eight_to_forteen_delinquent++;
+										$eight_to_forteen_delinquent_users[] = $child_id;
+									} else {
+										$fifteen_plus_delinquent++;
+										$fifteen_plus_delinquent_users[] = $child_id;
+									}
+								}
+							}
+						}
+					}
+
+					$data = array();
+					$data['ss_aw_institution_id'] = $institution_id;
+					$data['ss_aw_program_type'] = 1;
+					$data['ss_aw_completed_on_time'] = $completed_on_time;
+					if (!empty($completed_on_time_users)) {
+						$data['ss_aw_completed_on_time_users'] = implode(",", $completed_on_time_users);
+					}
+					$data['ss_aw_completed_but_not_on_time'] = $completed_but_not_on_time;
+					if (!empty($completed_but_not_on_time_users)) {
+						$data['ss_aw_completed_but_not_on_time_users'] = implode(",", $completed_but_not_on_time_users);
+					}
+					$data['ss_aw_one_to_seven_delinquent'] = $one_to_seven_delinquent;
+					if (!empty($one_to_seven_delinquent_users)) {
+						$data['ss_aw_one_to_seven_delinquent_users'] = implode(",", $one_to_seven_delinquent_users);
+					}
+					$data['ss_aw_eight_to_forteen_delinquent'] = $eight_to_forteen_delinquent;
+					if (!empty($eight_to_forteen_delinquent_users)) {
+						$data['ss_aw_eight_to_forteen_delinquent_users'] = implode(",", $eight_to_forteen_delinquent_users);
+					}
+					$data['ss_aw_fifteen_plus_delinquent'] = $fifteen_plus_delinquent;
+					if (!empty($fifteen_plus_delinquent_users)) {
+						$data['ss_aw_fifteen_plus_delinquent_users'] = implode(",", $fifteen_plus_delinquent_users);
+					}
+					$data['ss_aw_only_active_users'] = 1;
+					$data['ss_aw_created_date'] = date('Y-m-d');
+					$this->ss_aw_diagnostic_complete_log_model->add_logs($data);
+				}
+			}
+		}
+	}
+
+	public function masters_diagnostic_completed_on_time_for_active_users()
+	{
+		$institutions = $this->ss_aw_institutions_model->fetch_all();
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$institution_id = $value->ss_aw_id;
+				$this->ss_aw_diagnostic_complete_log_model->removeprogramlog(2, $institution_id, 1); {
+					$institution_parents = $this->ss_aw_parents_model->get_institutions_users($institution_id);
+					$institution_users_id = array();
+					if (!empty($institution_parents)) {
+						foreach ($institution_parents as $key => $value) {
+							$institution_users_id[] = $value->ss_aw_parent_id;
+						}
+					}
+
+					$masters_child = array();
+					$masters_child = $this->ss_aw_childs_model->get_master_users_by_parents_ary($institution_users_id, "", "", "", 1);
+
+					$completed_on_time = 0;
+					$completed_on_time_users = array();
+
+					$completed_but_not_on_time = 0;
+					$completed_but_not_on_time_users = array();
+
+					$one_to_seven_delinquent = 0;
+					$one_to_seven_delinquent_users = array();
+
+					$eight_to_forteen_delinquent = 0;
+					$eight_to_forteen_delinquent_users = array();
+
+					$fifteen_plus_delinquent = 0;
+					$fifteen_plus_delinquent_users = array();
+
+					if (!empty($masters_child)) {
+						foreach ($masters_child as $child) {
+							$child_id = $child->ss_aw_child_id;
+							$child_course_details = $this->ss_aw_child_course_model->get_details($child_id);
+							if (!empty($child_course_details)) {
+								$child_activation_date = $child_course_details[count($child_course_details) - 1]['ss_aw_child_course_create_date'];
+								$child_activation_date = date('Y-m-d', strtotime($child_activation_date));
+
+								//diagnostic section
+								$diagnostic_exam_code_details = $this->ss_aw_diagonastic_exam_model->get_exam_details_by_child($child_id);
+								if (!empty($diagnostic_exam_code_details)) {
+									$diagnostic_complete_date = date('Y-m-d', strtotime($diagnostic_exam_code_details->ss_aw_diagonastic_exam_date));
+
+									$diff = strtotime($diagnostic_complete_date) - strtotime($child_activation_date);
+
+									$diffDay = round($diff / (60 * 60 * 24));
+
+									if ($diffDay <= 1) {
+										$completed_on_time++;
+										$completed_on_time_users[] = $child_id;
+									} else {
+										$completed_but_not_on_time++;
+										$completed_but_not_on_time_users[] = $child_id;
+									}
+								} else {
+									$curDate = date('Y-m-d');
+									$diff = strtotime($curDate) - strtotime($child_activation_date);
+
+									$diffDay = round($diff / (60 * 60 * 24));
+
+									if ($diffDay > 1 && $diffDay <= 7) {
+										$one_to_seven_delinquent++;
+										$one_to_seven_delinquent_users[] = $child_id;
+									} elseif ($diffDay > 7 && $diffDay <= 14) {
+										$eight_to_forteen_delinquent++;
+										$eight_to_forteen_delinquent_users[] = $child_id;
+									} else {
+										$fifteen_plus_delinquent++;
+										$fifteen_plus_delinquent_users[] = $child_id;
+									}
+								}
+							}
+						}
+					}
+
+					$data = array();
+					$data['ss_aw_institution_id'] = $institution_id;
+					$data['ss_aw_program_type'] = 2;
+					$data['ss_aw_completed_on_time'] = $completed_on_time;
+					if (!empty($completed_on_time_users)) {
+						$data['ss_aw_completed_on_time_users'] = implode(",", $completed_on_time_users);
+					}
+					$data['ss_aw_completed_but_not_on_time'] = $completed_but_not_on_time;
+					if (!empty($completed_but_not_on_time_users)) {
+						$data['ss_aw_completed_but_not_on_time_users'] = implode(",", $completed_but_not_on_time_users);
+					}
+					$data['ss_aw_one_to_seven_delinquent'] = $one_to_seven_delinquent;
+					if (!empty($one_to_seven_delinquent_users)) {
+						$data['ss_aw_one_to_seven_delinquent_users'] = implode(",", $one_to_seven_delinquent_users);
+					}
+					$data['ss_aw_eight_to_forteen_delinquent'] = $eight_to_forteen_delinquent;
+					if (!empty($eight_to_forteen_delinquent_users)) {
+						$data['ss_aw_eight_to_forteen_delinquent_users'] = implode(",", $eight_to_forteen_delinquent_users);
+					}
+					$data['ss_aw_fifteen_plus_delinquent'] = $fifteen_plus_delinquent;
+					if (!empty($fifteen_plus_delinquent_users)) {
+						$data['ss_aw_fifteen_plus_delinquent_users'] = implode(",", $fifteen_plus_delinquent_users);
+					}
+					$data['ss_aw_only_active_users'] = 1;
+					$data['ss_aw_created_date'] = date('Y-m-d');
+					$this->ss_aw_diagnostic_complete_log_model->add_logs($data);
+				}
+			}
+		}
+	}
+
+	public function winners_topics_completed_on_time_for_active_users(){
+		$institutions = $this->ss_aw_institutions_model->fetch_all();
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$instdata=array();
+				$institution_id='';
+				$institution_id = $value->ss_aw_id;
+				$expertise_level = 'E';
+				$programme_type = 1;
+				
+				$this->ss_aw_topics_complete_log_model->removeprogramlog($programme_type, $institution_id,1);
+				$instdata = $this->institution_cron_model->getinstitutionwisedata($institution_id, $expertise_level, $programme_type,1);
+				
+				if (!empty($instdata)) {
+					foreach ($instdata as $ins) {
+						$data = array();
+						$data['ss_aw_institution_id'] = $institution_id;
+						$data['ss_aw_program_type'] = $programme_type;
+						$data['ss_aw_lesson_id'] = $ins['ss_aw_lession_id'];
+						$data['ss_aw_completed_on_time'] = $ins['completed_on_time'];
+						if (!empty($ins['completed_on_time_users'])) {
+							$data['ss_aw_completed_on_time_users'] = $ins['completed_on_time_users'];
+						}
+						$data['ss_aw_completed_but_not_on_time'] = $ins['completed_but_not_on_time'];
+						if (!empty($ins['completed_but_not_on_time_users'])) {
+							$data['ss_aw_completed_but_not_on_time_users'] = $ins['completed_but_not_on_time_users'];
+						}
+						$data['ss_aw_one_to_seven_delinquent'] = $ins['one_to_seven_delinquent'];
+						if (!empty($ins['one_to_seven_delinquent_users'])) {
+							$data['ss_aw_one_to_seven_delinquent_users'] = $ins['one_to_seven_delinquent_users'];
+						}
+						$data['ss_aw_eight_to_forteen_delinquent'] = $ins['eight_to_forteen_delinquent'];
+						if (!empty($ins['eight_to_forteen_delinquent_users'])) {
+							$data['ss_aw_eight_to_forteen_delinquent_users'] = $ins['eight_to_forteen_delinquent_users'];
+						}
+						$data['ss_aw_fifteen_plus_delinquent'] = $ins['fifteen_plus_delinquent'];
+						if (!empty($ins['fifteen_plus_delinquent_users'])) {
+							$data['ss_aw_fifteen_plus_delinquent_users'] = $ins['fifteen_plus_delinquent_users'];
+						}
+						$data['ss_aw_only_active_users'] = 1;
+						$data['ss_aw_created_date'] = date('Y-m-d');
+						$this->ss_aw_topics_complete_log_model->add_logs($data);
+					}
+				}
+			}
+		}
+		echo "done";
+	}
+	public function winners_topics_completed_on_time_for_active_users_old()
+	{
+		$topic_listary = array();
+		$general_language_lessons = array();
+		//get all topics
+		$search_data = array();
+		$search_data['ss_aw_expertise_level'] = 'E';
+		$topic_listary = $this->ss_aw_sections_topics_model->get_all_records(0, 0, $search_data);
+		//get comprehensions
+		$general_language_lessons = $this->ss_aw_lessons_uploaded_model->get_winners_general_language_lessons();
+		$topicAry = array();
+		if (!empty($topic_listary)) {
+			foreach ($topic_listary as $key => $value) {
+				$topicAry[] = $value->ss_aw_section_id;
+			}
+		}
+		$topical_lessons = $this->ss_aw_lessons_uploaded_model->get_lessonlist_by_topics($topicAry);
+		$lesson_listary = array_merge($topical_lessons, $general_language_lessons);
+
+		$institutions = $this->ss_aw_institutions_model->fetch_all();
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$institution_id = $value->ss_aw_id;
+				//here will check complete number updated or not date wise
+				$this->ss_aw_topics_complete_log_model->removeprogramlog(1, $institution_id, 1); {
+					$institution_parents = $this->ss_aw_parents_model->get_institutions_users($institution_id);
+					$institution_users_id = array();
+					if (!empty($institution_parents)) {
+						foreach ($institution_parents as $key => $value) {
+							$institution_users_id[] = $value->ss_aw_parent_id;
+						}
+					}
+					$winners_child = array();
+					$winners_child = $this->ss_aw_childs_model->get_users_by_parents_ary($institution_users_id, "", "", "", 1);
+
+					if (!empty($lesson_listary)) {
+						$lesson_count = 0;
+						foreach ($lesson_listary as $lesson_topic) {
+
+							$completed_on_time = 0;
+							$completed_on_time_users = array();
+
+							$completed_but_not_on_time = 0;
+							$completed_but_not_on_time_users = array();
+
+							$one_to_seven_delinquent = 0;
+							$one_to_seven_delinquent_users = array();
+
+							$eight_to_forteen_delinquent = 0;
+							$eight_to_forteen_delinquent_users = array();
+
+							$fifteen_plus_delinquent = 0;
+							$fifteen_plus_delinquent_users = array();
+
+							$lesson_count++;
+							$lesson_id = $lesson_topic['ss_aw_lession_id'];
+
+							if (!empty($winners_child)) {
+								foreach ($winners_child as $child) {
+									$child_id = $child->ss_aw_child_id;
+									$diagnostic_exam_code_details = $this->ss_aw_diagonastic_exam_model->get_exam_details_by_child($child_id);
+									if (!empty($diagnostic_exam_code_details)) {
+										//course enrolled date.
+										$child_activation_date = date('Y-m-d', strtotime($diagnostic_exam_code_details->ss_aw_diagonastic_exam_date)); {
+											$prev_lesson_id = $lesson_listary[$lesson_count - 1]['ss_aw_lession_id'];
+											$lesson_complete_details = $this->ss_aw_child_last_lesson_model->get_details_by_lesson($prev_lesson_id, $child_id);
+											if (!empty($lesson_complete_details->ss_aw_last_lesson_create_date)) {
+												$child_activation_date = $lesson_complete_details->ss_aw_last_lesson_create_date;
+											} else {
+												$child_activation_date = "";
+											}
+										}
+										//assessment section
+										$assessment_id = "";
+										$topical_assessment_start_details = $this->ss_aw_assesment_questions_asked_model->check_exam_start($child_id, $lesson_topic['ss_aw_lession_id']);
+										if (!empty($topical_assessment_start_details)) {
+											$assessment_id = $topical_assessment_start_details[0]->ss_aw_assessment_id;
+										} else {
+											$comprehension_assessment_start_details = $this->ss_aw_assesment_multiple_question_asked_model->check_exam_start($child_id, $value->ss_aw_lesson_id);
+											$assessment_id = $comprehension_assessment_start_details[0]->ss_aw_assessment_id;
+										}
+
+										$assessment_completetion_details = $this->ss_aw_assessment_exam_completed_model->get_assessment_completion_details($assessment_id, $child_id);
+										$assessment_complete_date = "";
+										if (!empty($assessment_completetion_details)) {
+											$assessment_complete_date = date('Y-m-d', strtotime($assessment_completetion_details[0]->ss_aw_create_date));
+										} {
+											if (!empty($child_activation_date)) {
+												if (!empty($assessment_complete_date)) {
+													$diff = strtotime($assessment_complete_date) - strtotime($child_activation_date);
+													$diffDay = round($diff / (60 * 60 * 24));
+													if ($diffDay <= 7) {
+														$completed_on_time++;
+														$completed_on_time_users[] = $child_id;
+													} else {
+														$completed_but_not_on_time++;
+														$completed_but_not_on_time_users[] = $child_id;
+													}
+												} else {
+													$current_date = date('Y-m-d');
+													$diff = strtotime($current_date) - strtotime($child_activation_date);
+													$diffDay = round($diff / (60 * 60 * 24));
+													if ($diffDay > 7 && $diffDay <= 14) {
+														$one_to_seven_delinquent++;
+														$one_to_seven_delinquent_users[] = $child_id;
+													} elseif ($diffDay > 14 && $diffDay <= 21) {
+														$eight_to_forteen_delinquent++;
+														$eight_to_forteen_delinquent_users[] = $child_id;
+													} elseif ($diffDay > 21) {
+														$fifteen_plus_delinquent++;
+														$fifteen_plus_delinquent_users[] = $child_id;
+													} else {
+														//0-7 days.
+													}
+												}
+											}
+										}
+										//end	
+									}
+								}
+							}
+
+							$data = array();
+							$data['ss_aw_institution_id'] = $institution_id;
+							$data['ss_aw_program_type'] = 1;
+							$data['ss_aw_lesson_id'] = $lesson_id;
+							$data['ss_aw_completed_on_time'] = $completed_on_time;
+							if (!empty($completed_on_time_users)) {
+								$data['ss_aw_completed_on_time_users'] = implode(",", $completed_on_time_users);
+							}
+							$data['ss_aw_completed_but_not_on_time'] = $completed_but_not_on_time;
+							if (!empty($completed_but_not_on_time_users)) {
+								$data['ss_aw_completed_but_not_on_time_users'] = implode(",", $completed_but_not_on_time_users);
+							}
+							$data['ss_aw_one_to_seven_delinquent'] = $one_to_seven_delinquent;
+							if (!empty($one_to_seven_delinquent_users)) {
+								$data['ss_aw_one_to_seven_delinquent_users'] = implode(",", $one_to_seven_delinquent_users);
+							}
+							$data['ss_aw_eight_to_forteen_delinquent'] = $eight_to_forteen_delinquent;
+							if (!empty($eight_to_forteen_delinquent_users)) {
+								$data['ss_aw_eight_to_forteen_delinquent_users'] = implode(",", $eight_to_forteen_delinquent_users);
+							}
+							$data['ss_aw_fifteen_plus_delinquent'] = $fifteen_plus_delinquent;
+							if (!empty($fifteen_plus_delinquent_users)) {
+								$data['ss_aw_fifteen_plus_delinquent_users'] = implode(",", $fifteen_plus_delinquent_users);
+							}
+							$data['ss_aw_only_active_users'] = 1;
+							$data['ss_aw_created_date'] = date('Y-m-d');
+							$this->ss_aw_topics_complete_log_model->add_logs($data);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	public function masters_topics_completed_on_time_for_active_users(){
+		
+		$institutions = $this->ss_aw_institutions_model->fetch_all();		
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$instdata=array();
+				$institution_id='';
+				$institution_id = $value->ss_aw_id;
+				$expertise_level = 'A,M';
+				$programme_type = 2;
+				
+				$this->ss_aw_topics_complete_log_model->removeprogramlog($programme_type, $institution_id,1);
+				$instdata = $this->institution_cron_model->getinstitutionwisedata($institution_id, $expertise_level, $programme_type,1);
+				
+				if (!empty($instdata)) {
+					foreach ($instdata as $ins) {
+						$data = array();
+						$data['ss_aw_institution_id'] = $institution_id;
+						$data['ss_aw_program_type'] = $programme_type;
+						$data['ss_aw_lesson_id'] = $ins['ss_aw_lession_id'];
+						$data['ss_aw_completed_on_time'] = $ins['completed_on_time'];
+						if (!empty($ins['completed_on_time_users'])) {
+							$data['ss_aw_completed_on_time_users'] = $ins['completed_on_time_users'];
+						}
+						$data['ss_aw_completed_but_not_on_time'] = $ins['completed_but_not_on_time'];
+						if (!empty($ins['completed_but_not_on_time_users'])) {
+							$data['ss_aw_completed_but_not_on_time_users'] = $ins['completed_but_not_on_time_users'];
+						}
+						$data['ss_aw_one_to_seven_delinquent'] = $ins['one_to_seven_delinquent'];
+						if (!empty($ins['one_to_seven_delinquent_users'])) {
+							$data['ss_aw_one_to_seven_delinquent_users'] = $ins['one_to_seven_delinquent_users'];
+						}
+						$data['ss_aw_eight_to_forteen_delinquent'] = $ins['eight_to_forteen_delinquent'];
+						if (!empty($ins['eight_to_forteen_delinquent_users'])) {
+							$data['ss_aw_eight_to_forteen_delinquent_users'] = $ins['eight_to_forteen_delinquent_users'];
+						}
+						$data['ss_aw_fifteen_plus_delinquent'] = $ins['fifteen_plus_delinquent'];
+						if (!empty($ins['fifteen_plus_delinquent_users'])) {
+							$data['ss_aw_fifteen_plus_delinquent_users'] = $ins['fifteen_plus_delinquent_users'];
+						}
+						$data['ss_aw_only_active_users'] = 1;
+						$data['ss_aw_created_date'] = date('Y-m-d');
+						$this->ss_aw_topics_complete_log_model->add_logs($data);
+					}
+				}
+			}
+		}
+		echo "done";
+	}
+	public function masters_topics_completed_on_time_for_active_users_old()
+	{
+		$topic_listary = array();
+		$general_language_lessons = array();
+		//get all topics
+		$search_data = array();
+		$search_data['ss_aw_expertise_level'] = 'A,M';
+		$topic_listary = $this->ss_aw_sections_topics_model->get_all_records(0, 0, $search_data);
+		$topicAry = array();
+		if (!empty($topic_listary)) {
+			foreach ($topic_listary as $key => $value) {
+				$topicAry[] = $value->ss_aw_section_id;
+			}
+		}
+		$topical_lessons = $this->ss_aw_lessons_uploaded_model->get_lessonlist_by_topics($topicAry);
+		$lesson_listary = array_merge($topical_lessons, $general_language_lessons);
+
+		$institutions = $this->ss_aw_institutions_model->fetch_all();
+		if (!empty($institutions)) {
+			foreach ($institutions as $key => $value) {
+				$institution_id = $value->ss_aw_id;
+				//here will check complete number updated or not date wise
+				$this->ss_aw_topics_complete_log_model->removeprogramlog(2, $institution_id, 1); {
+					$institution_parents = $this->ss_aw_parents_model->get_institutions_users($institution_id);
+					$institution_users_id = array();
+					if (!empty($institution_parents)) {
+						foreach ($institution_parents as $key => $value) {
+							$institution_users_id[] = $value->ss_aw_parent_id;
+						}
+					}
+					$masters_child = array();
+					$masters_child = $this->ss_aw_childs_model->get_master_users_by_parents_ary($institution_users_id, "", "", "", 1);
+
+					if (!empty($lesson_listary)) {
+						$lesson_count = 0;
+						foreach ($lesson_listary as $lesson_topic) {
+
+							$completed_on_time = 0;
+							$completed_on_time_users = array();
+
+							$completed_but_not_on_time = 0;
+							$completed_but_not_on_time_users = array();
+
+							$one_to_seven_delinquent = 0;
+							$one_to_seven_delinquent_users = array();
+
+							$eight_to_forteen_delinquent = 0;
+							$eight_to_forteen_delinquent_users = array();
+
+							$fifteen_plus_delinquent = 0;
+							$fifteen_plus_delinquent_users = array();
+
+							$lesson_count++;
+							$lesson_id = $lesson_topic['ss_aw_lession_id'];
+
+							if (!empty($masters_child)) {
+								foreach ($masters_child as $i => $child) {
+									$child_id = $child->ss_aw_child_id;
+									//diagnostic section
+									$diagnostic_exam_code_details = $this->ss_aw_diagonastic_exam_model->get_exam_details_by_child($child_id);
+									if (!empty($diagnostic_exam_code_details)) {
+										//course enrolled date.
+										$child_activation_date = date('Y-m-d', strtotime($diagnostic_exam_code_details->ss_aw_diagonastic_exam_date)); {
+
+											$prev_lesson_id = $lesson_listary[$lesson_count - 1]['ss_aw_lession_id'];
+											$lesson_complete_details = $this->ss_aw_child_last_lesson_model->get_details_by_lesson($prev_lesson_id, $child_id);
+											//get lesson start date.
+											if (!empty($lesson_complete_details->ss_aw_last_lesson_create_date)) {
+												$child_activation_date = $lesson_complete_details->ss_aw_last_lesson_create_date;
+											} else {
+												$child_activation_date = "";
+											}
+										}
+
+										//assessment section
+										$assessment_id = "";
+										$topical_assessment_start_details = $this->ss_aw_assesment_questions_asked_model->check_exam_start($child_id, $lesson_topic['ss_aw_lession_id']);
+										if (!empty($topical_assessment_start_details)) {
+											$assessment_id = $topical_assessment_start_details[0]->ss_aw_assessment_id;
+										} else {
+											$comprehension_assessment_start_details = $this->ss_aw_assesment_multiple_question_asked_model->check_exam_start($child_id, $value->ss_aw_lesson_id);
+											$assessment_id = $comprehension_assessment_start_details[0]->ss_aw_assessment_id;
+										}
+
+										$assessment_completetion_details = $this->ss_aw_assessment_exam_completed_model->get_assessment_completion_details($assessment_id, $child_id);
+										$assessment_complete_date = "";
+										if (!empty($assessment_completetion_details)) {
+											$assessment_complete_date = date('Y-m-d', strtotime($assessment_completetion_details[0]->ss_aw_create_date));
+										} {
+											if (!empty($child_activation_date)) {
+												if (!empty($assessment_complete_date)) {
+													$diff = strtotime($assessment_complete_date) - strtotime($child_activation_date);
+													$diffDay = round($diff / (60 * 60 * 24));
+													if ($diffDay <= 7) {
+														$completed_on_time++;
+														$completed_on_time_users[] = $child_id;
+													} else {
+														$completed_but_not_on_time++;
+														$completed_but_not_on_time_users[] = $child_id;
+													}
+												} else {
+													$current_date = date('Y-m-d');
+													$diff = strtotime($current_date) - strtotime($child_activation_date);
+													$diffDay = round($diff / (60 * 60 * 24));
+
+													if ($diffDay > 7 && $diffDay <= 14) {
+														$one_to_seven_delinquent++;
+														$one_to_seven_delinquent_users[] = $child_id;
+													} elseif ($diffDay > 14 && $diffDay <= 21) {
+														$eight_to_forteen_delinquent++;
+														$eight_to_forteen_delinquent_users[] = $child_id;
+													} elseif ($diffDay > 21) {
+														$fifteen_plus_delinquent++;
+														$fifteen_plus_delinquent_users[] = $child_id;
+													} else {
+														// 0-7 days.
+													}
+												}
+											}
+										}
+										//end	
+									}
+								}
+							}
+
+							$data = array();
+							$data['ss_aw_institution_id'] = $institution_id;
+							$data['ss_aw_program_type'] = 2;
+							$data['ss_aw_lesson_id'] = $lesson_id;
+							$data['ss_aw_completed_on_time'] = $completed_on_time;
+							if (!empty($completed_on_time_users)) {
+								$data['ss_aw_completed_on_time_users'] = implode(",", $completed_on_time_users);
+							}
+							$data['ss_aw_completed_but_not_on_time'] = $completed_but_not_on_time;
+							if (!empty($completed_but_not_on_time_users)) {
+								$data['ss_aw_completed_but_not_on_time_users'] = implode(",", $completed_but_not_on_time_users);
+							}
+							$data['ss_aw_one_to_seven_delinquent'] = $one_to_seven_delinquent;
+							if (!empty($one_to_seven_delinquent_users)) {
+								$data['ss_aw_one_to_seven_delinquent_users'] = implode(",", $one_to_seven_delinquent_users);
+							}
+							$data['ss_aw_eight_to_forteen_delinquent'] = $eight_to_forteen_delinquent;
+							if (!empty($eight_to_forteen_delinquent_users)) {
+								$data['ss_aw_eight_to_forteen_delinquent_users'] = implode(",", $eight_to_forteen_delinquent_users);
+							}
+							$data['ss_aw_fifteen_plus_delinquent'] = $fifteen_plus_delinquent;
+							if (!empty($fifteen_plus_delinquent_users)) {
+								$data['ss_aw_fifteen_plus_delinquent_users'] = implode(",", $fifteen_plus_delinquent_users);
+							}
+							$data['ss_aw_only_active_users'] = 1;
+							$data['ss_aw_created_date'] = date('Y-m-d');
+							$this->ss_aw_topics_complete_log_model->add_logs($data);
+						}
+					}
+				}
+			}
+		}
+	}
+}

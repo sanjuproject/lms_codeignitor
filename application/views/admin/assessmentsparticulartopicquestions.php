@@ -1,0 +1,603 @@
+<!-- ============================================================== -->
+        <!-- Start Page Content here -->
+        <!-- ============================================================== -->
+
+        <div class="content-page">
+            <div class="content">
+
+                <!-- Start Content-->
+                <div class="container-fluid">
+
+                    <!-- start page title -->
+                    <div class="row">
+                        <div class="col-md-12">
+                             <div class="page-title-left">
+                                <ol class="breadcrumb m-0">
+                                    <li class="breadcrumb-item">Assessments</li>
+                                    <li class="breadcrumb-item"><a href="<?= base_url(); ?>admin_course_content/assessments">List of Assessment</a></li>
+                                    <li class="breadcrumb-item active">Assessments for a particular topic and level</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+					<?php include("error_message.php");?>
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <h4 class="page-title">Assessments</h4>
+                        </div>
+
+                        <div class="col-md-6">
+
+
+
+                            <div class="footerformView float-right mb-2">
+                                <form>
+                                    <select class="form-control adminusersbottomdropdown" id="drpMultipleCta" onchange="do_function(this.value);">
+                                        <option value="0" select>Please Select</option>
+                                        
+                                        <option value="2">Delete all</option>
+                                    </select>
+
+                                </form>
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
+                    <!-- end page title -->
+
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+
+                                    <div class="row mb-2">
+									<div class="col-sm-3">
+
+                                            <a href="javascript:void(0);" class="btn btn-danger mb-2"
+                                                data-toggle="modal" data-target="#modal1-add-assessment"><i
+                                                    class="mdi mdi-plus-circle mr-2"></i>Import New Assessment</a>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="text-sm-right">
+                                            <?php
+											if(!empty($search_parent_data['ss_aw_sub_category'])){
+											?>												
+												<form action="<?php echo base_url();?>admin_course_content/assessmentsparticulartopicquestions/<?php echo base64_encode($search_parent_data['ss_aw_sub_category']);?>
+												/<?php echo base64_encode($search_parent_data['ss_aw_uploaded_record_id']);?>" method="post" id="demo-form">
+											<?php }else{ ?>
+											<form action="<?php echo base_url();?>admin_course_content/assessmentsparticulartopicquestions/<?php echo base64_encode($search_parent_data['ss_aw_category']);?>
+												/<?php echo base64_encode($search_parent_data['ss_aw_uploaded_record_id']);?>" method="post" id="demo-form">
+											<?php } ?>	
+                                                    <div class="row content-right">
+                                                        
+                                                        
+                                                            <div class="form-group mr-2">
+                                                               
+                                                                   
+                                                                        <select
+                                                                            class="form-control adminusersbottomdropdown" name="search_level"
+                                                                            id="drpQuestionFormat" onchange="filter_data();">
+                                                                            <option value="">select Level
+                                                                            </option>
+                                                                            <option value="A" <?php if(!empty($search_parent_data['ss_aw_level']) && $search_parent_data['ss_aw_level']== 'A'){?>selected<?php }?>>A</option>
+                                                                            <option value="C" <?php if(!empty($search_parent_data['ss_aw_level']) && $search_parent_data['ss_aw_level']== 'C'){?>selected<?php }?>>C</option>
+                                                                            <option value="E" <?php if(!empty($search_parent_data['ss_aw_level']) && $search_parent_data['ss_aw_level']== 'E'){?>selected<?php }?>>E</option>
+                                                                               </select>
+                                                                           </div>
+                                                                            <div class="form-group mr-2">
+                                                                   
+                                                                
+                                                               
+                                                                   
+                                                                        <select
+                                                                            class="form-control adminusersbottomdropdown" name="question_form"
+                                                                            id="drpQuestionFormat" onchange="filter_data();">
+                                                                            <option value="">Question Format
+                                                                            </option>
+                                                                            <option <?php if(!empty($search_parent_data['ss_aw_question_format']) && $search_parent_data['ss_aw_question_format']== 'Choose the right answer'){?>selected<?php }?> value="Choose the right answer" select>Choose the right answer</option>
+                                                                            <option <?php if(!empty($search_parent_data['ss_aw_question_format']) && $search_parent_data['ss_aw_question_format']== 'Fill in the blanks'){?>selected<?php }?> value="Fill in the blanks">Fill in the blanks</option>
+																			<option <?php if(!empty($search_parent_data['ss_aw_question_format']) && $search_parent_data['ss_aw_question_format']== 'Rewrite the sentence'){?>selected<?php }?> value="Rewrite the sentence">Rewrite the sentence</option>
+
+                                                                        </select>
+                                                                    </div>
+                                                                     <div class="form-group">
+                                                                   
+                                                                
+                                                               
+                                                                   
+                                                                        <select
+                                                                            class="form-control adminusersbottomdropdown" name="status"
+                                                                            id="drpStatus" onchange="filter_data();">
+                                                                            <option value="">Status</option>
+                                                                            <option value="1" <?php if(!empty($search_parent_data['ss_aw_status']) && $search_parent_data['ss_aw_status'] == 1){?>selected<?php } ?>>Active</option>
+                                                                            <option value="2" <?php if(!empty($search_parent_data['ss_aw_status']) && $search_parent_data['ss_aw_status'] == 2){?>selected<?php } ?>>Inactive</option>
+                                                                        </select>
+                                                                    </div>
+                                                                   
+                                                                <div class="form-group ml-2">
+<button type="button" id="btnClearFilter"
+                                                                class="btn btn-danger waves-effect waves-light">Clear</button>
+ </div>
+                                                        
+
+                                                        
+                                                        
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                     <div class="table-responsive gridview-wrapper">
+                                        <table class="table table-centered  table-striped dt-responsive nowrap w-100"
+                                            id="inline-editable" data-show-columns="true">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th style="width: 20px;">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input type="checkbox" class="custom-control-input"
+                                                                id="customCheck1">
+                                                            <label class="custom-control-label"
+                                                                for="customCheck1">&nbsp;</label>
+                                                        </div>
+                                                    </th>
+                                                    <th># SL No.</th>
+                                                    <th>Level</th>
+													<th>Weight</th>
+                                                    <th>Question Format</th>
+                                                    <th>Question Preface</th>
+                                                    <th>Question</th>
+
+
+                                                    <!-- <th>Status</th>
+                                                    <th>Action</th> -->
+                                                </tr>
+                                            </thead>
+
+
+                                            <tbody>
+											<form action="<?php echo base_url();?>admin_course_content/multipledeleteassessment" id="deleteassessmentfrom" method="post">
+											<?php
+												if(!empty($search_parent_data['ss_aw_sub_category'])){
+											?>											
+											  <input type="hidden" value = "<?php echo $search_parent_data['ss_aw_sub_category']; ?>" name="ss_aw_sub_category" />
+											<?php 
+											}else{ 
+											?>  
+											<input type="hidden" value = "<?php echo $search_parent_data['ss_aw_category']; ?>" name="ss_aw_sub_category" />
+											<?php 
+											} 
+											?>
+						
+											  <input type="hidden" value = "<?php echo $search_parent_data['ss_aw_uploaded_record_id']; ?>" name="ss_aw_record_id" />
+											  <input type="hidden" value = "1" name="delete_assisment_diagnostic" />
+											 <?php 
+                                                    $sl=1;
+                                                foreach ($result as $key=>$value) {
+                                                 $record_id = $value['ss_aw_id'];    
+
+                                            ?>
+											
+                                                <tr>
+                                                    <td>
+                                                        <div class="custom-control custom-checkbox" id="checkboxdata">
+                                                            <input type="checkbox" name="selecteddata[]" value="<?php echo $value['ss_aw_id'];?>" class="custom-control-input"
+                                                                id="customCheck<?php echo $key + 2;?>">
+                                                            <label class="custom-control-label"
+                                                                for="customCheck<?php echo $key + 2;?>"></label>
+                                                        </div>
+                                                    </td>
+                                                    
+													<td class="tableeditCell" id="record_id_<?php echo $record_id;?>" level = "<?php echo $value['ss_aw_level']; ?>" sub_category = "<?php echo $value['ss_aw_sub_category']; ?>" category = "<?php echo $value['ss_aw_category']; ?>" value="<?php echo $record_id;?>" onblur="update_seq_no(<?php echo $record_id;?>);"><?php echo $value['ss_aw_seq_no'];?></td>
+                                                    
+                                                    
+													<?php /* ?><td><?php echo $value['ss_aw_seq_no'];?></td><?php */?>
+                                                    <td><?php echo $value['ss_aw_level'];?></td>
+													<td><?php echo $value['ss_aw_weight'];?></td>
+                                                    <td><?php echo $value['ss_aw_format'];?></td>
+                                                    <td><?php echo $value['ss_aw_question_preface'];?></td>
+                                                    <td><?php echo $value['ss_aw_question'];?></td>
+
+                                                    
+															
+													<!-- <td>
+                                                         <?php
+                                                        if($value['ss_aw_status'] == 1)
+                                                        {
+                                                            ?>
+														<a href="#" class="badge badge-soft-success" onclick="update_status(<?php echo $value['ss_aw_id'];?>,<?php echo $value['ss_aw_status'];?>);"
+                                                            title="Make Inactive" data-toggle="modal"
+                                                            data-target="#warning-status-modal">Active</a>
+                                                                <?php
+                                                        }
+                                                        else
+                                                        {
+                                                            ?>
+                                                             <a href="#" class="badge badge-soft-danger" onclick="update_status(<?php echo $value['ss_aw_id'];?>,<?php echo $value['ss_aw_status'];?>);"
+                                                            title="Make Active" data-toggle="modal"
+                                                            data-target="#warning-status-modal">In Active</a>
+                                                              <?php
+                                                        } 
+                                                        ?>
+                                                    </td>
+													
+                                                    <td>
+                                                        <a href="javascript:void(0);" class="action-icon"> <i
+                                                                class="mdi mdi-square-edit-outline"
+                                                                title="Edit"></i></a>
+                                                        <a href="javascript:void(0);" onclick="record_delete(<?php echo $value['ss_aw_id'];?>);" class="action-icon"
+                                                            data-toggle="modal" data-target="#warning-delete-modal"
+                                                            title="Delete"> <i class="mdi mdi-delete"></i></a>
+                                                    </td> -->
+
+                                                </tr>
+												<?php } ?>		
+                                                
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                </div> <!-- end card body-->
+                            </div> <!-- end card -->
+                        </div><!-- end col-->
+                    </div>
+                   
+				
+                    <!--Status update confirmation dialog -->
+                    <div id="warning-status-modal" class="modal fade show" tabindex="-1" role="dialog"
+                        aria-modal="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-body p-4">
+                                    <div class="text-center">
+                                        <i class="dripicons-warning h1 text-warning"></i>
+                                        <h4 class="mt-2">Warning!</h4>
+                                        <p class="mt-3">Are you sure you want to update the status?</p>
+                                        <div class="button-list">
+                                           <form action="<?php echo base_url();?>admin_course_content/assessmentsparticulartopicquestions/<?php echo base64_encode($search_parent_data['ss_aw_sub_category']);?>
+												/<?php echo base64_encode($search_parent_data['ss_aw_uploaded_record_id']);?>" method="post">
+
+                                             <input type="hidden" id="status_assesment_id" name="ss_aw_id">   
+                                             <input type="hidden" id="status_assesment_status" name="status_assesment_status">   
+                                             <input type="hidden" name="assesment_status_change" value="parent_status_change">   
+                                            <button type="submit" class="btn btn-danger"
+                                               >Yes</button>
+                                            <button type="button" class="btn btn-success"
+                                                data-dismiss="modal">No</button>
+                                                </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div>
+
+                    <!-- Delete confirmation dialog -->
+                    <div id="warning-delete-modal" class="modal fade show" tabindex="-1" role="dialog"
+                        aria-modal="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-body p-4">
+                                    <div class="text-center">
+                                        <i class="dripicons-warning h1 text-warning"></i>
+                                        <h4 class="mt-2">Warning!</h4>
+                                        <p class="mt-3">Deleting will remove this topic from the system. Are you
+                                            sure ?
+                                        </p>
+                                        <div class="button-list">
+                                            <form action="<?php echo base_url();?>admin_course_content/assessmentsparticulartopicquestions/<?php echo base64_encode($search_parent_data['ss_aw_sub_category']);?>
+												/<?php echo base64_encode($search_parent_data['ss_aw_uploaded_record_id']);?>" method="post">
+                                                <input type="hidden" name="assessment_delete_process" id="assessment_delete_process" value="assessment_delete_process">
+                                        <input type="hidden" id="delete_assesment_id" name="ss_aw_id">
+                                            <button type="submit" class="btn btn-danger"
+                                                >Yes</button>
+                                            <button type="button" class="btn btn-success"
+                                                data-dismiss="modal">No</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div>
+
+				<!-- Modal -->
+                    <div class="modal fade" id="modal1-add-assessment" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-light">
+                                    <h4 class="modal-title" id="myCenterModalLabel">New Assessment/Diagnostic Quiz Upload</h4>
+                                    <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">×</button>
+                                </div>
+                                <div class="modal-body p-4">
+                                    <form action="<?php echo base_url();?>admin_course_content/upload_assessment_additional" method="post" enctype="multipart/form-data" id="demo-form" class="parsley-examples" id="modal-demo-form">
+                                        <input type="hidden" value = "<?php echo $search_parent_data['ss_aw_uploaded_record_id']; ?>" name="ss_aw_record_id" />
+										<?php
+												if(!empty($search_parent_data['ss_aw_sub_category'])){
+											?>											
+											  <input type="hidden" value = "<?php echo $search_parent_data['ss_aw_sub_category']; ?>" name="ss_aw_sub_category" />
+											<?php 
+											}else{ 
+											?>  
+											<input type="hidden" value = "<?php echo $search_parent_data['ss_aw_category']; ?>" name="ss_aw_sub_category" />
+											<?php 
+											} 
+											?>
+										<div class="form-row">
+                                            <p>Flamma speciem permisit nunc longo altae bracchia stagna diverso
+                                                deorum.</p>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Format<span class="text-danger">*</span></label>
+                                                <select id="" name="format" class="form-control parsley-error" onchange="setformat(this.value);" required="">
+                                                    <option value="">Select</option>
+                                                    <option value="Single">Single</option>
+                                                    <option value="Multiple">Multiple</option>
+
+                                                </select>
+                                                <ul class="parsley-errors-list filled" aria-hidden="false"></ul>
+                                            </div>
+											
+											
+                                             <div class="form-group col-md-6" id="setlevel" style="display:none;">
+                                                <label for="select-code-language">Level<span
+                                                        class="text-danger">*</span></label>
+                                                <select class="form-control parsley-error" name="level" id="choose_level">
+                                                    <option value="" selected>Select</option>
+                                                    <option value="E">Level E</option>
+                                                    <option value="C">Level C</option>
+                                                    <option value="A">Level A</option>
+
+                                                </select>
+                                                <ul class="parsley-errors-list filled" aria-hidden="false"></ul>
+                                            </div>
+                                        </div>
+										
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label for="select-code-language">Upload Template<span
+                                                        class="text-danger">*</span></label><br/>
+                                                <button type="button"
+                                                    class="btnUploadAgain btn btn-primary btn-xs btn-rounded waves-effect waves-light">
+                                                    Upload 
+                                                    <input type="file" name="file" id="fileUploadAgain">
+                                                </button><span id="lblFileName" class="lblFileName">No file selected</span>
+                                                <ul class="parsley-errors-list filled" aria-hidden="false"></ul>
+                                                <h6>Note : Only Excel file format allowed. <a href="<?php echo base_url();?>assets/templates/assessment_templates.zip">Sample Template</a> file found here.</h6>
+                                            </div>
+                                        </div>
+
+
+                                        <div>
+                                            <button type="submit"
+                                                class="btn btn-blue waves-effect waves-light custom-color">
+                                                Add Assessment
+                                            </button>
+                                            <button type="reset" class="btn btn-danger waves-effect m-l-5"
+                                                data-dismiss="modal">
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+                    
+
+
+                </div> <!-- container -->
+
+            </div> <!-- content -->
+
+            <?php
+                include('includes/bottombar.php');
+            ?>
+
+        </div>
+
+        <!-- ============================================================== -->
+        <!-- End Page content -->
+        <!-- ============================================================== -->
+	</div>	
+<style type="text/css">
+    .custom-form-control {
+
+        width: 50px;
+
+    }
+
+    .selectize-dropdown {
+        z-index: 99999;
+    }
+
+    .selectize-dropdown-header {
+        display: none;
+    }
+
+    .dropify-wrapper .dropify-message p {
+        line-height: 50px;
+    }
+
+    .custom-color {
+        background-color: #3283f6;
+        margin-right: 10px;
+    }
+
+    .templete {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .card-box {
+        border: 1px solid #ced4da;
+    }
+    .content-right{
+    justify-content: flex-end;
+}
+    </style>	
+
+    <?php
+            include('footer.php')
+        ?>
+    <!-- Table Editable plugin-->
+    <script src="<?php echo base_url();?>assets/libs/jquery-tabledit/jquery.tabledit.min.js"></script>
+
+    <!-- Table editable init-->
+    <!-- <script src="./assets/js/pages/tabledit.init.js"></script> -->
+    <script src="<?php echo base_url();?>assets/libs/select2/js/select2.min.js"></script>
+    <script src="<?php echo base_url();?>assets/libs/bootstrap-select/js/bootstrap-select.min.js"></script>
+    <script src="<?php echo base_url();?>assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+    <!-- Validation init js-->
+    <script src="<?php echo base_url();?>assets/js/pages/form-validation.init.js"></script>
+    <script src="<?php echo base_url();?>assets/js/pages/form-advanced.init.js"></script>
+
+    <script>
+	! function(t) {
+        "use strict";
+
+        function o() {}
+        o.prototype.init = function() {
+            t("#inline-editable").Tabledit({
+                inputClass: "form-control form-control-sm custom-form-control",
+                editButton: !1,
+                deleteButton: !1,
+                columns: {
+                    identifier: [2, "Lesson ID"],
+                    editable: [
+                        [1, "col1"]
+                    ]
+                }
+            })
+        }, t.EditableTable = new o, t.EditableTable.Constructor = o
+    }(window.jQuery),
+    function() {
+        "use strict";
+        window.jQuery.EditableTable.init()
+    }();
+	
+    jQuery(function() {
+        jQuery('#btnClearFilter').click(function() {
+            jQuery('#txtFilter').val('');
+            jQuery('#drpStatus').prop('selectedIndex', 0);
+			jQuery('#drpQuestionFormat').prop('selectedIndex', 0);
+			$("#demo-form").submit();
+        });
+
+        jQuery('#customCheck1').click(function() {
+            let $this = jQuery(this);
+            let thisCheckedState = jQuery(this).is(':checked');
+            let listOfCheckboxes = $this.closest('table').find('tbody tr td:first-child :checkbox');
+
+            if (thisCheckedState) {
+                listOfCheckboxes.each(function() {
+                    jQuery(this).prop('checked', true);
+                });
+            } else {
+                listOfCheckboxes.each(function() {
+                    jQuery(this).prop('checked', false);
+                });
+            }
+
+        });
+        jQuery('tbody tr td:first-child :checkbox').click(function() {
+            let $this = jQuery(this);
+            let thisCheckedState = $this.is(':checked');
+            let targetCheckbox = $this.closest('table').find('tr th:first-child :checked');
+            if (!thisCheckedState) {
+                targetCheckbox.prop('checked', false);
+            }
+        });
+		
+		jQuery('#fileUploadAgain').change(function(){
+            jQuery('#lblFileName').text(jQuery(this).val().replace(/C:\\fakepath\\/i, ''))
+        });
+
+    });
+$("#topic_id").change(function(){
+	
+      $("#topic_name").val($("#topic_id").find(":selected").text());
+    });	
+	
+function setformat(value)
+{
+	$("#setlevel select").removeAttr("required");
+	if(value !='Single')
+	{
+		$("#choose_level").attr("required", true);
+		$("#setlevel").css('display','block');
+	}else
+	{
+		$("#setlevel").css('display','none');
+	}
+}	
+
+        function filter_data()
+{
+    $("#demo-form").submit();
+}   
+
+function update_status(assessment_id,assesment_status){
+          if(assesment_status==1)
+          {
+            assesment_status = 2;
+          }
+          else
+          {
+            assesment_status = 1;
+          }
+          document.getElementById('status_assesment_status').value = assesment_status;
+          document.getElementById('status_assesment_id').value = assessment_id;
+
+     }
+  function record_delete(assessment_id)  
+  {
+   document.getElementById('delete_assesment_id').value = assessment_id;    
+
+  } 
+ function do_function(value)
+{
+	if(value == 1)
+		$("#modal1-add-assessment").modal('toggle');
+	else if(value == 2)
+	{
+		$('#checkboxdata input:checked').each(function() {
+			$("#deleteassessmentfrom").submit();
+		});
+	}
+	
+}  
+
+ jQuery('.tableeditCell').on('keypress',function(e){
+    if (e.which == 13) {
+        let newValue = jQuery(this).find('.tabledit-input').val();
+		var record_id = $(this).attr( "value" );
+		var sub_category = $(this).attr("sub_category");
+		var category = $(this).attr("category");
+		var level = $(this).attr("level");
+		$.post("<?php echo base_url();?>/admin_course_content/updateassessment_seqno", { serial_no: newValue,id: record_id,
+		category:category,sub_category:sub_category,level:level})
+  .done(function( data ) {
+	  if(data == 1){
+	  location.reload(true);
+	  }
+  });
+    }
+ });  
+    </script>
+
+</body>
+
+</html>	

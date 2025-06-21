@@ -1,0 +1,11 @@
+{
+	"minSupportedAppVersion": 1,
+	"appVersions": [
+		{
+			"latestAppVersion": 1,
+			"apiVersion": 1
+		}
+	],
+	"googlePlayStoreURL": "https://play.google.com/store/apps/details?id=com.alsowise&hl=en",
+	"appleItunesURL": "https://itunes.apple.com/apps/details?id=com.alsowise&hl=en"
+}
