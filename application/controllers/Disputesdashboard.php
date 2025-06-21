@@ -350,7 +350,7 @@ $api_key = FRESH_DESK_API;
 		curl_close($ch);
 		if($info['http_code'] == 201){
 			$this->session->set_flashdata('success','Reply post successfully');
-			$title = "ALSOWISE Ticket ID: ".$ticketid;
+			$title = "team Ticket ID: ".$ticketid;
 			$body = $subject." - Admin responded";
 			if (!empty($device_token)) {
 				pushnotification($title,$body,$device_token,49);	

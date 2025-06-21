@@ -32,12 +32,12 @@
                     <table cellspacing="0" cellpadding="0" style="width: 100%;">
                         <tr>
                             <td style="margin-bottom: 5px;text-align: center;">
-                                <img src="<?= base_url(); ?>images/alsowise-logo-without-name.png" style="width: 150px;" alt="">
+                                <img src="<?= base_url(); ?>images/team-logo-without-name.png" style="width: 150px;" alt="">
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align: center;">
-                                <img src="<?= base_url(); ?>images/alsowise-logo-text.png" style="width: 200px;" alt="">
+                                <img src="<?= base_url(); ?>images/team-logo-text.png" style="width: 200px;" alt="">
                             </td>
                         </tr>
                         <tr>
@@ -69,7 +69,7 @@
                                             $course_name = "Advanced";
                                         }
                                     ?>
-                                    ALSOWISE™ <?= $course_name; ?> Sample Program</label>
+                                    team™ <?= $course_name; ?> Sample Program</label>
                             </td>
                         </tr>
                         <tr>
@@ -83,7 +83,7 @@
                             <td style="width: 100%;padding: 20px 50px;text-align: left;padding-top: 5px;">
                                 <p
                                 style="color: #797106;font-family: 'Roboto', sans-serif;font-weight: 400;font-size: 18px;text-align: justify;">
-                                Please find below a brief report on your child’s progress in the recently concluded program in which he participated. Our goal at Alsowise is to provide you with more than just a numeric score. To that end we also provide feedback on how your child's performance compares to other students who have participated in and completed the same program.</p>
+                                Please find below a brief report on your child’s progress in the recently concluded program in which he participated. Our goal at team is to provide you with more than just a numeric score. To that end we also provide feedback on how your child's performance compares to other students who have participated in and completed the same program.</p>
                             
                             <h3 style="color: #797106;font-family: 'Roboto', sans-serif;font-weight: 500;font-size: 28px;">
                                 Definitions</h3>
@@ -97,7 +97,7 @@
                             <p style="color: #797106;font-family: 'Roboto', sans-serif;font-weight: 400;font-size: 18px;"><span
                                     style="font-weight: 700;">Assessment Quiz:</span> A quiz on a specific topic offered at least one day after the lesson has been completed.</p>
                             <p style="color: #797106;font-family: 'Roboto', sans-serif;font-weight: 400;font-size: 18px;"><span
-                                    style="font-weight: 700;">ReadAlong™:</span> A specially selected piece of fiction or non-fiction, or an original ALSOWISE™ piece of writing meant to develop a student’s reading and comprehension skills.</p>
+                                    style="font-weight: 700;">ReadAlong™:</span> A specially selected piece of fiction or non-fiction, or an original team™ piece of writing meant to develop a student’s reading and comprehension skills.</p>
                             <p style="color: #797106;font-family: 'Roboto', sans-serif;font-weight: 400;font-size: 16px; font-style: italic;">Please note that this course offered topics centred on grammar, general language and reading skills.</p>                
         
                             </td>

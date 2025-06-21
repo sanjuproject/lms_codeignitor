@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>WordWise | Alsowise</title>
+    <title>WordWise | team</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -323,7 +323,7 @@
                                             <img src="<?php echo base_url(); ?>assets/quiz_challange_templete/wordwise_puzzle.png" alt="" height="300">
 
                                             <h5>WordWise puzzles are among the most popular and challenging brain-teasers ever created, loved by enthusiasts all over the world, but especially by speakers of the English language.</h5>
-                                            <h5>The ALSOWISE<sup>®</sup> WordWise Puzzle challenges your grasp of vocabulary, word usage and general language skills, but makes sure that you have fun at the same time.</h5>
+                                            <h5>The team<sup>®</sup> WordWise Puzzle challenges your grasp of vocabulary, word usage and general language skills, but makes sure that you have fun at the same time.</h5>
                                         </div>
                                     </div>
                                 </div>
@@ -408,13 +408,13 @@
                                             <div id="sucess_answer">
                                                 <h4>Congratulations! That was amazing.</h4>
 
-                                                <p>If you enjoyed this, you’ll have even more fun as you learn when you enrol in the ALSOWISE program. Visit our <a href="https://alsowise.com/"> website </a> to learn more.</p>
+                                                <p>If you enjoyed this, you’ll have even more fun as you learn when you enrol in the team program. Visit our <a href="https://team.com/"> website </a> to learn more.</p>
 
                                             </div>
                                             <div id="wrong_answer">
                                                 <h4>Better luck next time!</h4>
 
-                                                <p>If you enjoyed this, you’ll have even more fun as you learn when you enrol in the ALSOWISE program. Visit our <a href="https://alsowise.com/"> website </a> to learn more.</p>
+                                                <p>If you enjoyed this, you’ll have even more fun as you learn when you enrol in the team program. Visit our <a href="https://team.com/"> website </a> to learn more.</p>
 
                                             </div>
                                         </div>
@@ -453,7 +453,7 @@
                         <div class="col-md-12 text-lg-right text-md-right text-center">
                             &copy; <script>
                                 document.write(new Date().getFullYear())
-                            </script> Alsowise. All rights reserved.
+                            </script> team. All rights reserved.
                         </div>
                     </div>
                 </div>

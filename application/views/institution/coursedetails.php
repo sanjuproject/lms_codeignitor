@@ -67,7 +67,7 @@
                                             <?php
                                             if ($value['ss_aw_lesson_format'] == 'Multiple') {
                                             ?>
-                                                <p>Topic-agnostic modules that are meant to test the student's retention of all the topical lessons that he/ she has already completed as part of the ALSOWISE® Programme. Each lesson/ assessment begins with a short reading comprehension quiz, and is followed by other quiz sections that test the student's dexterity in such areas as sentence sequencing, error identification and word puzzles.</p>
+                                                <p>Topic-agnostic modules that are meant to test the student's retention of all the topical lessons that he/ she has already completed as part of the team® Programme. Each lesson/ assessment begins with a short reading comprehension quiz, and is followed by other quiz sections that test the student's dexterity in such areas as sentence sequencing, error identification and word puzzles.</p>
                                             <?php
                                             } else {
                                             ?>
@@ -99,7 +99,7 @@
                                             <?php
                                             if ($value['ss_aw_lesson_format'] == 'Multiple') {
                                             ?>
-                                                <p>Topic-agnostic modules that are meant to test the student's retention of all the topical lessons that he/ she has already completed as part of the ALSOWISE® Programme. Each lesson/ assessment begins with a short reading comprehension quiz, and is followed by other quiz sections that test the student's dexterity in such areas as sentence sequencing, error identification and word puzzles.</p>
+                                                <p>Topic-agnostic modules that are meant to test the student's retention of all the topical lessons that he/ she has already completed as part of the team® Programme. Each lesson/ assessment begins with a short reading comprehension quiz, and is followed by other quiz sections that test the student's dexterity in such areas as sentence sequencing, error identification and word puzzles.</p>
                                             <?php
                                             } else {
                                             ?>
@@ -131,7 +131,7 @@
                                             <?php
                                             if ($value['ss_aw_lesson_format'] == 'Multiple') {
                                             ?>
-                                                <p>Topic-agnostic modules that are meant to test the student's retention of all the topical lessons that he/ she has already completed as part of the ALSOWISE® Programme. Each lesson/ assessment begins with a short reading comprehension quiz, and is followed by other quiz sections that test the student's dexterity in such areas as sentence sequencing, error identification and word puzzles.</p>
+                                                <p>Topic-agnostic modules that are meant to test the student's retention of all the topical lessons that he/ she has already completed as part of the team® Programme. Each lesson/ assessment begins with a short reading comprehension quiz, and is followed by other quiz sections that test the student's dexterity in such areas as sentence sequencing, error identification and word puzzles.</p>
                                             <?php
                                             } else {
                                             ?>

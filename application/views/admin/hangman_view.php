@@ -244,7 +244,7 @@ include 'footer.php'
             selectable: false,
         })
 
-        var quiz_footer = new fabric.Textbox("Visit www.alsowise.com/fun to test your skill.", {
+        var quiz_footer = new fabric.Textbox("Visit www.team.com/fun to test your skill.", {
             left: 25,
             top: 640,
             width: 600,

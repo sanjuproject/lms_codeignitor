@@ -339,6 +339,6 @@ class Report_cron extends CI_Controller
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
         ob_end_clean();
         $objWriter->save($save_file_path);
-        return "/var/www/vhosts/alsowise.com/httpdocs/awadmin/" . $filepath . $filename;
+        return "/var/www/vhosts/team.com/httpdocs/awadmin/" . $filepath . $filename;
     }
 }

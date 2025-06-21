@@ -14,7 +14,7 @@
             Dear Super Admin,<br/>
             Please click <a href="<?= $attachment ?>">here</a> for get the excel data.<br/>
             Thanking You, <br/>
-            Alsowise
+            team
         </p>
     </body>
 </html>

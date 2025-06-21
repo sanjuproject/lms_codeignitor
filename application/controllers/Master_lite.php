@@ -38,7 +38,7 @@ class Master_lite extends CI_Controller
 
     public function get_all_student_not_completed_in_time()
     {
-        $headerdata['title'] = "Alsowise student data";
+        $headerdata['title'] = "team student data";
         $master_data = $this->ss_aw_master_lite_model->get_all_master_data();
        
 
@@ -48,7 +48,7 @@ class Master_lite extends CI_Controller
             $subject = "MLP Report for $date";
             $email = "sanju.malik@schemaphic.com";
             $cc = "";
-            // $email = "ateesh@alsowise.com";
+            // $email = "ateesh@team.com";
             // $cc = "deepanjan@schemaphic.com";
             $data['attachment'] = $this->getExcelfileName($master_data);
             if ($data['attachment'] != '') {

@@ -6545,7 +6545,7 @@ class Testingapi extends CI_Controller {
 
     public function service_call(){
     	try {
-			$command = escapeshellcmd("python3 /var/www/vhosts/alsowise.com/httpdocs/python_services/generatescorecard.py");
+			$command = escapeshellcmd("python3 /var/www/vhosts/team.com/httpdocs/python_services/generatescorecard.py");
 			shell_exec($command);	
 		} catch (Exception $e) {
 			echo 'Message: ' .$e->getMessage();

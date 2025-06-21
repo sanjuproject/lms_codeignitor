@@ -153,7 +153,7 @@ class Diagnostic extends CI_Controller
 							$body = str_ireplace("[@@password@@]", $postdata['password'], $body);
 							$send_data = array(
 								'ss_aw_email' => $postdata['email'],
-								'ss_aw_subject' => 'Welcome to ALSOWISE. Thank you for registering with us.',
+								'ss_aw_subject' => 'Welcome to team. Thank you for registering with us.',
 								'ss_aw_template' => $body,
 								'ss_aw_type' => 1
 							);
@@ -922,12 +922,12 @@ class Diagnostic extends CI_Controller
 							$body = str_ireplace("[@@username@@]", $value->ss_aw_child_nick_name, $body);
 							$send_data = array(
 								'ss_aw_email' => $value->ss_aw_child_email,
-								'ss_aw_subject' => 'Welcome to ALSOWISE. Thank you for registering with us.',
+								'ss_aw_subject' => 'Welcome to team. Thank you for registering with us.',
 								'ss_aw_template' => $body,
 								'ss_aw_type' => 1
 							);
 							$this->ss_aw_email_que_model->save_record($send_data);
-							//emailnotification($email, 'Welcome to ALSOWISE. Thank you for registering with us.', $body);	
+							//emailnotification($email, 'Welcome to team. Thank you for registering with us.', $body);	
 						}
 					}
 				}

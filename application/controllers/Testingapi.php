@@ -6183,7 +6183,7 @@ class Testingapi extends CI_Controller
 	public function service_call()
 	{
 		try {
-			$command = escapeshellcmd("python3 /var/www/vhosts/alsowise.com/httpdocs/python_services/generatescorecard.py");
+			$command = escapeshellcmd("python3 /var/www/vhosts/team.com/httpdocs/python_services/generatescorecard.py");
 			shell_exec($command);
 		} catch (Exception $e) {
 			echo 'Message: ' . $e->getMessage();
@@ -6353,7 +6353,7 @@ class Testingapi extends CI_Controller
 	public function send_test_mail()
 	{
 		try {
-			$attachment = 'C:\xampp\htdocs\alsowise\alsowiseadmin\awadmin\assets\Financial MIS - Aug 2023.xlsx';
+			$attachment = 'C:\xampp\htdocs\team\teamadmin\awadmin\assets\Financial MIS - Aug 2023.xlsx';
 
 			$res = emailnotification('sayan.sen@schemaphic.com', 'Financial MIS - July 2023', 'PFA the Financial MIS report for the month of July, 2023.', 'sayansanu30@gmail.com', $attachment, 'sayan.sen.programmar@gmail.com');
 			print_r($res);
@@ -6466,7 +6466,7 @@ class Testingapi extends CI_Controller
 				$email = $receiver_emails[$i];
 				$send_data = array(
 					'ss_aw_email' => $email,
-					'ss_aw_subject' => 'Please update your ALSOWISE App immediately',
+					'ss_aw_subject' => 'Please update your team App immediately',
 					'ss_aw_template' => $content,
 					'ss_aw_type' => 1
 				);
@@ -6499,21 +6499,21 @@ class Testingapi extends CI_Controller
 				if ($child->course_level == "E" || $child->course_level == "A") {
 					$his = $child->ss_aw_child_gender == 1 ? 'his' : ($child->ss_aw_child_gender == 2 ? 'her' : 'his/her');
 					if ($child->ss_aw_institution == 0) {
-						$text = " Below is our assessment of how <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "</b> performed in the ALSOWISE® " . Winners . " Programme, 
+						$text = " Below is our assessment of how <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "</b> performed in the team® " . Winners . " Programme, 
                                         a course that he recently completed. Our goal
-                                        at ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> is to provide your child with more than just a performance score on the curriculum. To that
+                                        at team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> is to provide your child with more than just a performance score on the curriculum. To that
                                         end, we have included feedback on <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "'s</b> performance compared to that"
 							. "      of the other users who have completed the same programme.";
 					} else {
-						$text = " Below is our assessment of how <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "</b> performed in the ALSOWISE® " . Winners . " Programme, 
+						$text = " Below is our assessment of how <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "</b> performed in the team® " . Winners . " Programme, 
                                         a course that he recently completed. Our goal
-                                        at ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> is to provide you with more than just a performance score on the curriculum. To that
+                                        at team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> is to provide you with more than just a performance score on the curriculum. To that
                                         end, we have included feedback on <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "'s</b> performance compared to that "
 							. "     of the other users who have completed the same programme.";
 					}
 				} else {
-					$text = "Below is our assessment of how <b>you</b> performed in the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> " . Master . "s Programme, a course that you recently completed. 
-                        Our goal at ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> is to provide you with more than just a performance score on the curriculum.
+					$text = "Below is our assessment of how <b>you</b> performed in the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> " . Master . "s Programme, a course that you recently completed. 
+                        Our goal at team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> is to provide you with more than just a performance score on the curriculum.
                         To that end, we have included feedback on <b>your</b> performance compared to that of the other users who have completed the same programme.";
 				}
 
@@ -6935,8 +6935,8 @@ class Testingapi extends CI_Controller
 
 				$his = $child->ss_aw_child_gender == 1 ? 'his' : ($child->ss_aw_child_gender == 2 ? 'her' : 'his/her');
 
-				$text = "Below is our assessment of how <b>you</b> performed in the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> " . $title . " Programme, a course that you recently completed. 
-											Our goal at ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> is to provide you with more than just a performance score on the curriculum.
+				$text = "Below is our assessment of how <b>you</b> performed in the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> " . $title . " Programme, a course that you recently completed. 
+											Our goal at team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> is to provide you with more than just a performance score on the curriculum.
 											To that end, we have included feedback on <b>your</b> performance compared to that of the other users who have completed the same programme.";
 
 

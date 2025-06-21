@@ -186,7 +186,7 @@
                                         <p></p>
                                     </div>
                                     <div class="label-input mb-3">
-                                        <input class="form-control" id="answer_link" readonly type="text" name="answer_link" value="www.alsowise.com/puzzles/crosswords/<?= $quiz_list_data->ss_aw_challange_id; ?>">
+                                        <input class="form-control" id="answer_link" readonly type="text" name="answer_link" value="www.team.com/puzzles/crosswords/<?= $quiz_list_data->ss_aw_challange_id; ?>">
                                     </div>
                                     <div class="direction-input mb-3">
                                         <a onclick="answerLink()" href="javascript:void(0);" class="form-control">
@@ -412,7 +412,7 @@ include('footer.php')
             // fontWeight: 900,
             selectable: false,
         })
-        var quiz_footer = new fabric.Textbox("Visit www.alsowise.com/fun to test your skill.", {
+        var quiz_footer = new fabric.Textbox("Visit www.team.com/fun to test your skill.", {
             left: 25,
             top: 640,
             width: 600,

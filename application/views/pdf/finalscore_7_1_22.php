@@ -32,12 +32,12 @@
                     <table cellspacing="0" cellpadding="0" style="width: 100%;">
                         <tr>
                             <td style="margin-bottom: 5px;text-align: center;">
-                                <img src="<?= base_url(); ?>images/alsowise-logo-without-name.png" style="width: 150px;" alt="">
+                                <img src="<?= base_url(); ?>images/team-logo-without-name.png" style="width: 150px;" alt="">
                             </td>
                         </tr>
                         <tr>
                             <td style="text-align: center;">
-                                <img src="<?= base_url(); ?>images/alsowise-logo-text.png" style="width: 200px;" alt="">
+                                <img src="<?= base_url(); ?>images/team-logo-text.png" style="width: 200px;" alt="">
                             </td>
                         </tr>
                         <tr>
@@ -71,7 +71,7 @@
                                             $course_name = "Advanced";
                                         }
                                     ?>
-                                    ALSOWISE™ <?= $course_name; ?> Sample Program</label>
+                                    team™ <?= $course_name; ?> Sample Program</label>
                             </td>
                         </tr>
                         <tr>
@@ -86,7 +86,7 @@
                                 <p
                                 style="color: #797106;font-family: 'Roboto', sans-serif;font-weight: 400;font-size: 18px;text-align: justify;">
                                 Below is Our assessment of how your child performed in their recently completed course. our goal
-                                at Alsowise is to provide you with more than just a performance score on the ciriculum. to that
+                                at team is to provide you with more than just a performance score on the ciriculum. to that
                                 end we also provide feedback on how your child's performance compares to other students
                                 completing the course.</p>
                                 <?php

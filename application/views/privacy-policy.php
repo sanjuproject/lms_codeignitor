@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALSOWISE™ | Privacy Policy</title>
+    <title>team™ | Privacy Policy</title>
     <link rel="shortcut icon" href="<?php echo base_url();?>/assets/images/favicon.ico">
     <link rel="stylesheet" href="<?= base_url(); ?>assets/frontent/css/bootstrap.css" type="text/css" />
     <link rel="stylesheet" href="<?= base_url(); ?>assets/frontent/css/bootstrap.min.css" type="text/css" />
@@ -22,11 +22,11 @@
                 <div class="counter-top-section">
 
                     <div class="topbar-section">
-                        <div class="topbar-alsowise-logo">
-                            <img src="<?= base_url(); ?>images/alsowise-logo-without-name.png" alt="">
+                        <div class="topbar-team-logo">
+                            <img src="<?= base_url(); ?>images/team-logo-without-name.png" alt="">
                         </div>
-                        <div class="topbar-alsowise-logo-text">
-                            <img src="<?= base_url(); ?>images/alsowise-logo-text.png" alt="">
+                        <div class="topbar-team-logo-text">
+                            <img src="<?= base_url(); ?>images/team-logo-text.png" alt="">
                         </div>
                     </div>
                     
@@ -72,7 +72,7 @@
 
 
                 <footer class="footer">
-                    <p>© <?= date('Y'); ?> Alsowise. All rights reserved.</p>
+                    <p>© <?= date('Y'); ?> team. All rights reserved.</p>
                 </footer>
 
 

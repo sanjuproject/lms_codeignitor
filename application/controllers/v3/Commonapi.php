@@ -258,7 +258,7 @@ public function faq()
 			 	$mobile = $child_details[0]->ss_aw_child_mobile;
 			 	$loginID = $child_details[0]->ss_aw_child_code;
 			 	
-			 	$subject = "Alsowise Feedback from ".$name;
+			 	$subject = "team Feedback from ".$name;
 			 	/*$msg .= "<br><br>";
 			 	$msg .= "Email Body:";
 			 	$msg .= "<br>";*/
@@ -272,7 +272,7 @@ public function faq()
 			 	$email = $parent_details[0]->ss_aw_parent_email;
 			 	$mobile = $parent_details[0]->ss_aw_parent_primary_mobile;
 			 	
-			 	$subject = "Alsowise Feedback from ".$name;
+			 	$subject = "team Feedback from ".$name;
 			 	/*$msg .= "<br><br>";
 			 	$msg .= "Email Body:";
 			 	$msg .= "<br>";*/
@@ -315,11 +315,11 @@ public function faq()
 			$msg .= "<br>";
 			$msg .= "Warm Regards";
 			$msg .= "<br>";
-			$msg .= "Alsowise™ Team";
+			$msg .= "team™ Team";
 	      //$subject = $inputpost['subject'];
-			$email = "ateesh@alsowise.com";
+			$email = "ateesh@team.com";
 			$bcc = "deepanjan@schemaphic.com"; // Send the mail to this account
-			$cc = "ateesh@alsowise.com";
+			$cc = "ateesh@team.com";
 			emailnotification($email, $subject, $msg, $cc, "", $bcc);
 			//sendmail($msg,$subject,$email);
 			 

@@ -165,7 +165,7 @@
                                         <p></p>
                                     </div>
                                     <div class="label-input mb-3">
-                                        <input class="form-control" id="answer_link" readonly type="text" name="answer_link" value="www.alsowise.com/puzzles/crosswords/<?= $quiz_list_data->ss_aw_challange_id; ?>">
+                                        <input class="form-control" id="answer_link" readonly type="text" name="answer_link" value="www.team.com/puzzles/crosswords/<?= $quiz_list_data->ss_aw_challange_id; ?>">
                                     </div>
                                     <div class="direction-input mb-3">
                                         <!-- <label for="example-select">H/V</label> -->

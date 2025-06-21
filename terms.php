@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>ALSOWISE™ - Terms & PRivacy Policy</title>
+<title>team™ - Terms & PRivacy Policy</title>
 
 </head>
 

@@ -86,7 +86,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 
 define('FRESH_DESK_API','cVcDxu8GWlqCNaVRYjT');
-define('FRESH_DESK_PASSWORD','Alsowise2021');
+define('FRESH_DESK_PASSWORD','team2021');
 define('FRESH_DESK_DOMAIN','newaccount1624337705803');
 
 define('TRANSLATER_KEY','b9c0587eb1a3fddfc2eedb63be5c3919');

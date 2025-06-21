@@ -125,7 +125,7 @@ class Parentapi extends CI_Controller {
 							$headers = "MIME-Version: 1.0" . "\r\n";
 							$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-							$headers .= "From: Alsowise <deepanjan.das@gmail.com>";
+							$headers .= "From: team <deepanjan.das@gmail.com>";
 									
 
 							// send email
@@ -176,7 +176,7 @@ class Parentapi extends CI_Controller {
 						$headers = "MIME-Version: 1.0" . "\r\n";
 						$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-						$headers .= "From: Alsowise <deepanjan.das@gmail.com>";
+						$headers .= "From: team <deepanjan.das@gmail.com>";
 								
 
 						// send email
@@ -250,7 +250,7 @@ class Parentapi extends CI_Controller {
 		{
 				$this->ss_aw_email_valification_model->delete_record_by_email($email);
 				$rand = rand(1000,9999);
-				$subject = "Alsowise parent user email valification";
+				$subject = "team parent user email valification";
 				$msg = "Email valification code : ".$rand;
 				$insertdata = array();
 				$insertdata['ss_aw_user_id'] = 0;
@@ -351,7 +351,7 @@ class Parentapi extends CI_Controller {
 		{
 				$this->ss_aw_phone_valification_model->delete_record_by_phone($phone);
 				$rand = rand(1000,9999);
-				$subject = "Alsowise parent primary mobile no valification";
+				$subject = "team parent primary mobile no valification";
 				$msg = "Mobile valification code : ".$rand;
 				$result = send_sms($country_code, $phone, $rand);
 				$insertdata = array();
@@ -528,7 +528,7 @@ class Parentapi extends CI_Controller {
 					$headers = "MIME-Version: 1.0" . "\r\n";
 					$headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-					$headers .= "From: Alsowise <deepanjan.das@gmail.com>";
+					$headers .= "From: team <deepanjan.das@gmail.com>";
 						
 
 					// send email
@@ -2583,7 +2583,7 @@ class Parentapi extends CI_Controller {
 				$html = "Subject: <p>".$subject."</p>";
 				$html .= "Message: <p>".$message."</p>";
 				$html .= "Parent Email: <p>".$getpaentdetails[0]->ss_aw_parent_email."</p>";
-				emailnotification_disputes('support@alsowise.com', 'Disputes', $html);
+				emailnotification_disputes('support@team.com', 'Disputes', $html);
 			 
 			} else {
 			  if($info['http_code'] == 404) {

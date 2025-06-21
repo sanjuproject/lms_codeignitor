@@ -7,7 +7,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="text-md-right footer-links d-none d-sm-block">
-                                    © <?php echo date("Y") ?> Alsowise. All rights reserved.
+                                    © <?php echo date("Y") ?> team. All rights reserved.
                                 </div>
                             </div>
                         </div>

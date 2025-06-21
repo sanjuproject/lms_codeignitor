@@ -16,7 +16,7 @@ function sendmail($msg, $subject, $email, $bcc = "", $attachment = "", $cc = "")
       $headers = "MIME-Version: 1.0" . "\r\n";
       $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
 
-      $headers .= "From: Alsowise <deepanjan.das@gmail.com>". "\r\n" ."CC: deepanjan.das@gmail.com";
+      $headers .= "From: team <deepanjan.das@gmail.com>". "\r\n" ."CC: deepanjan.das@gmail.com";
 
       $status = mail($email,$subject,$msg,$headers);
       return $status; */
@@ -25,8 +25,8 @@ function sendmail($msg, $subject, $email, $bcc = "", $attachment = "", $cc = "")
         'protocol' => 'smtp',
         'smtp_host' => 'smtp.netcorecloud.net',
         'smtp_port' => 587,
-        'smtp_user' => 'alsowise',
-        'smtp_pass' => 'alsowise_f5768c7c3da3c1aaa0932a7844075e39',
+        'smtp_user' => 'team',
+        'smtp_pass' => 'team_f5768c7c3da3c1aaa0932a7844075e39',
         'mailtype' => 'html',
         'charset' => 'utf-8',
         'smtp_crypto' => 'tls'
@@ -35,7 +35,7 @@ function sendmail($msg, $subject, $email, $bcc = "", $attachment = "", $cc = "")
     $CI = get_instance();
     $CI->load->library('email', $config);
     $CI->email->set_newline("\r\n");
-    $CI->email->from('communications@alsowise.com', 'ALSOWISE™');
+    $CI->email->from('communications@team.com', 'team™');
     $CI->email->to($email);
     if (!empty($cc)) {
         $cc_multi_mail = explode(",", $cc);
@@ -61,8 +61,8 @@ function sendbulkmail($msg, $subject, $email = array(), $bcc = "", $attachment =
             'protocol' => 'smtp',
             'smtp_host' => 'smtp.netcorecloud.net',
             'smtp_port' => 587,
-            'smtp_user' => 'alsowise',
-            'smtp_pass' => 'alsowise_f5768c7c3da3c1aaa0932a7844075e39',
+            'smtp_user' => 'team',
+            'smtp_pass' => 'team_f5768c7c3da3c1aaa0932a7844075e39',
             'mailtype' => 'html',
             'charset' => 'utf-8',
             'smtp_crypto' => 'tls'
@@ -71,7 +71,7 @@ function sendbulkmail($msg, $subject, $email = array(), $bcc = "", $attachment =
         $CI = get_instance();
         $CI->load->library('email', $config);
         $CI->email->set_newline("\r\n");
-        $CI->email->from('communications@alsowise.com', 'ALSOWISE™');
+        $CI->email->from('communications@team.com', 'team™');
         $CI->email->to($email);
         //$CI->email->cc("sayan.sen@schemaphic.com");
         if (!empty($bcc)) {
@@ -414,8 +414,8 @@ function notificationsendmail($email_template, $subject, $email, $phone, $fullna
             'protocol' => 'smtp',
             'smtp_host' => 'smtp.netcorecloud.net',
             'smtp_port' => 587,
-            'smtp_user' => 'alsowise',
-            'smtp_pass' => 'alsowise_f5768c7c3da3c1aaa0932a7844075e39',
+            'smtp_user' => 'team',
+            'smtp_pass' => 'team_f5768c7c3da3c1aaa0932a7844075e39',
             'mailtype' => 'html',
             'charset' => 'utf-8',
             'smtp_crypto' => 'tls'
@@ -424,7 +424,7 @@ function notificationsendmail($email_template, $subject, $email, $phone, $fullna
         $CI = get_instance();
         $CI->load->library('email', $config);
         $CI->email->set_newline("\r\n");
-        $CI->email->from('communications@alsowise.com', 'ALSOWISE™');
+        $CI->email->from('communications@team.com', 'team™');
         $CI->email->to($email);
         $CI->email->subject($subject);
         $CI->email->message($msg);
@@ -634,8 +634,8 @@ function emailnotification_old($email, $subject, $msg, $cc = "", $attachment = "
         'protocol' => 'smtp',
         'smtp_host' => 'smtp.netcorecloud.net',
         'smtp_port' => 587,
-        'smtp_user' => 'alsowise',
-        'smtp_pass' => 'alsowise_f5768c7c3da3c1aaa0932a7844075e39',
+        'smtp_user' => 'team',
+        'smtp_pass' => 'team_f5768c7c3da3c1aaa0932a7844075e39',
         'mailtype' => 'html',
         'charset' => 'utf-8',
         'smtp_crypto' => 'tls'
@@ -644,7 +644,7 @@ function emailnotification_old($email, $subject, $msg, $cc = "", $attachment = "
     $CI = get_instance();
     $CI->load->library('email', $config);
     $CI->email->set_newline("\r\n");
-    $CI->email->from('communications@alsowise.com', 'ALSOWISE™');
+    $CI->email->from('communications@team.com', 'team™');
     $CI->email->to($email);
     if (!empty($cc)) {
         $CI->email->cc($cc);
@@ -687,7 +687,7 @@ function emailnotification($email, $subject, $msg, $cc = "", $attachment = "") {
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS =>
-            'api_key=3b246c24a1af2a042ab05f4c80ead807&from=swagat%40alsowise.com
+            'api_key=3b246c24a1af2a042ab05f4c80ead807&from=swagat%40team.com
 			&to=' . $email . '
 			&subject=' . $subject . '&html=' . urlencode($msg) . '&attachment=' . $attachment . '',
             CURLOPT_HTTPHEADER => array(
@@ -731,7 +731,7 @@ function emailnotification($email, $subject, $msg, $cc = "", $attachment = "") {
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
             CURLOPT_POSTFIELDS =>
-            'api_key=3b246c24a1af2a042ab05f4c80ead807&from=swagat%40alsowise.com
+            'api_key=3b246c24a1af2a042ab05f4c80ead807&from=swagat%40team.com
 			&to=' . $email . '
 			&subject=' . $subject . '&html=' . urlencode($msg) . '',
             CURLOPT_HTTPHEADER => array(
@@ -783,8 +783,8 @@ function emailnotification_disputes($email, $subject, $msg) {
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
         CURLOPT_POSTFIELDS =>
-        'api_key=3b246c24a1af2a042ab05f4c80ead807&from=swagat%40alsowise.com
-		&to=' . $email . '&bcc=ateesh@alsowise.com,sheel@alsowise.com,craig@alsowise.com
+        'api_key=3b246c24a1af2a042ab05f4c80ead807&from=swagat%40team.com
+		&to=' . $email . '&bcc=ateesh@team.com,sheel@team.com,craig@team.com
 		&subject=' . $subject . '&html=' . urlencode($msg) . '',
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/x-www-form-urlencoded',
@@ -1027,7 +1027,7 @@ function send_sms($country_code, $mob_number, $otp) {
         $route = "I";
         //$mob_number = $country_code.$mob_number;
     }
-    $username = "ateesh@alsowise.com";
+    $username = "ateesh@team.com";
     $password = "Bastille1789";
     // Sender ID
     if ($country_code == 1) {
@@ -1036,7 +1036,7 @@ function send_sms($country_code, $mob_number, $otp) {
         $approved_senderid = "ALSOWS";
     }
     //Approved Template
-    $message = "The OTP to validate your ALSOWISE account is " . $otp . ". Please do not share this OTP with anyone. - The ALSOWISE team";
+    $message = "The OTP to validate your team account is " . $otp . ". Please do not share this OTP with anyone. - The team team";
     $enc_msg = rawurlencode($message); // Encoded message
     //Create API URL
     $fullapiurl = "http://smsc.biz/httpapi/send?username=$username&password=$password&sender_id=$approved_senderid&route=$route&phonenumber=$mob_number&message=$enc_msg";

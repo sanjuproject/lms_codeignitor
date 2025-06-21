@@ -145,7 +145,7 @@
                                                         <!-- <td><a href="#" onclick="return change_status(<?= $value->ss_aw_id; ?>, <?= $value->ss_aw_status; ?>);" class="badge <?= $value->ss_aw_status == 1 ? 'badge-soft-success' : 'badge-soft-danger'; ?>" data-toggle="modal"
                                                             data-target="#warning-status-modal"><?= $value->ss_aw_status == 1 ? "Active" : "Inactive"; ?></a></td> -->
                                                         <td class="actioncell">
-                                                            <input type="text" name="myInput" id="myInput" value="https://play.google.com/store/apps/details?id=com.alsowise&referrer=utm_source%3D<?= $value->ss_aw_id; ?>" style="display:none">
+                                                            <input type="text" name="myInput" id="myInput" value="https://play.google.com/store/apps/details?id=com.team&referrer=utm_source%3D<?= $value->ss_aw_id; ?>" style="display:none">
                                                             <a onclick="myFunction()" href="javascript:void(0);" class="action-icon">
                                                                 <i class="mdi mdi-arrange-send-backward" title="Copy Code"></i>
                                                             </a>

@@ -42,7 +42,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alsowise Invoice</title>
+    <title>team Invoice</title>
     <style>
         * {
             box-sizing: border-box;
@@ -98,7 +98,7 @@
                         <td cellpadding="0" cellspacing="0"  style="width:340px;">
                         <table >
                         <tr>
-            <td class="name-heading">ALSOWISE™ CONTENT LLP</td>
+            <td class="name-heading">team™ CONTENT LLP</td>
         </tr>
         <tr>
             <td class="small-text">P-8, Chowringhee Square, Swastic Centre</td>
@@ -122,7 +122,7 @@
             <td class="small-text">State Name : West Bengal, Code : 19</td>
         </tr>
         <tr>
-            <td class="small-text" style="border-bottom:1px solid black;width:340px" >E-Mail : support@alsowise.com</td>
+            <td class="small-text" style="border-bottom:1px solid black;width:340px" >E-Mail : support@team.com</td>
         </tr>
     </table>
         <table>

@@ -9,10 +9,10 @@ $title = $title;
 
 
         <meta charset="utf-8" />
-        <!-- <title>Dashboard | Alsowise</title> -->
-        <title><?php echo $title; ?> | Alsowise</title>
+        <!-- <title>Dashboard | team</title> -->
+        <title><?php echo $title; ?> | team</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="ALSOWISE" name="description" />
+        <meta content="team" name="description" />
         <meta content="Coderthemes" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->

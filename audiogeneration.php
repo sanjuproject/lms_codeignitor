@@ -5,8 +5,8 @@
 
 
     <meta charset="utf-8" />
-    <!-- <title>Dashboard | Alsowise</title> -->
-    <title>Audio Generation | Alsowise</title>
+    <!-- <title>Dashboard | team</title> -->
+    <title>Audio Generation | team</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -152,7 +152,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="text-md-right footer-links d-none d-sm-block">
-                                © <?php echo date("Y") ?> Alsowise. All rights reserved.
+                                © <?php echo date("Y") ?> team. All rights reserved.
                             </div>
                         </div>
                     </div>

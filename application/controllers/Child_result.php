@@ -38,21 +38,21 @@ class Child_result extends CI_Controller {
                     if ($child->course_level == "E" || $child->course_level == "A") {
                         $his = $child->ss_aw_child_gender == 1 ? 'his' : ($child->ss_aw_child_gender == 2 ? 'her' : 'his/her');
                         if ($child->ss_aw_institution == 0) {
-                            $text = " Below is our assessment of how <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "</b> performed in the ALSOWISE® ".Winners." Programme, 
+                            $text = " Below is our assessment of how <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "</b> performed in the team® ".Winners." Programme, 
                                         a course that he recently completed. Our goal
-                                        at ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> is to provide your child with more than just a performance score on the curriculum. To that
+                                        at team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> is to provide your child with more than just a performance score on the curriculum. To that
                                         end, we have included feedback on <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "'s</b> performance compared to that"
                                     . "      of the other users who have completed the same programme.";
                         } else {
-                            $text = " Below is our assessment of how <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "</b> performed in the ALSOWISE® ".Winners." Programme, 
+                            $text = " Below is our assessment of how <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "</b> performed in the team® ".Winners." Programme, 
                                         a course that he recently completed. Our goal
-                                        at ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> is to provide you with more than just a performance score on the curriculum. To that
+                                        at team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> is to provide you with more than just a performance score on the curriculum. To that
                                         end, we have included feedback on <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "'s</b> performance compared to that "
                                     . "     of the other users who have completed the same programme.";
                         }
                     } else {
-                        $text = "Below is our assessment of how <b>you</b> performed in the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> ".Master."s Programme, a course that you recently completed. 
-                        Our goal at ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> is to provide you with more than just a performance score on the curriculum.
+                        $text = "Below is our assessment of how <b>you</b> performed in the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> ".Master."s Programme, a course that you recently completed. 
+                        Our goal at team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg;</span> is to provide you with more than just a performance score on the curriculum.
                         To that end, we have included feedback on <b>your</b> performance compared to that of the other users who have completed the same programme.";
                     }
 

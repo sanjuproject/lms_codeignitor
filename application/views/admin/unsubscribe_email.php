@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>WordWise | Alsowise</title>
+    <title>WordWise | team</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
     <meta content="Coderthemes" name="author" />
@@ -211,7 +211,7 @@
                         <div class="col-md-12 text-lg-right text-md-right text-center">
                             &copy; <script>
                                 document.write(new Date().getFullYear())
-                            </script> Alsowise. All rights reserved.
+                            </script> team. All rights reserved.
                         </div>
                     </div>
                 </div>

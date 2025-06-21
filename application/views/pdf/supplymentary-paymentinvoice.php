@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alsowise Invoice</title>
+    <title>team Invoice</title>
     <style>
     * {
         box-sizing: border-box;
@@ -62,7 +62,7 @@
                                 <!-- First row 1st col-->
                                 <table cellpadding="0" cellspacing="0" width="100%">
                                     <tr>
-                                        <td class="name-heading" style="padding-left:5px; padding-top:5px;">Alsowise™ Content Solutions, LLP</td>
+                                        <td class="name-heading" style="padding-left:5px; padding-top:5px;">team™ Content Solutions, LLP</td>
                                     </tr>
                                     <tr>
                                         <td class="small-text" style="padding-left:5px">#2-A, SukhSadan Apartments,</td>
@@ -86,7 +86,7 @@
                                         <td class="small-text" style="padding-left:5px">State Name: West Bengal</td>
                                     </tr>
                                     <tr>
-                                        <td class="small-text" style="border-bottom:1px solid black;width:340px; padding-left:5px" >Email: support@alsowise.com</td>
+                                        <td class="small-text" style="border-bottom:1px solid black;width:340px; padding-left:5px" >Email: support@team.com</td>
                                     </tr>
 
                                     <tr>
@@ -170,7 +170,7 @@
                                     $purchased_course_name = "Advanced";
                                 }
                             ?>
-                            <p>Alsowise™ <?= $course_details[0]['ss_aw_course_name']; ?> Program</p>
+                            <p>team™ <?= $course_details[0]['ss_aw_course_name']; ?> Program</p>
                         </td>
                         <td style="width:14%;border-top:1px solid black; height:40px; text-align: right; padding-right:10px; font-weight: bold;">
                             <?= number_format(($payment_amount - $gst_rate), 2); ?>

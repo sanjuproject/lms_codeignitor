@@ -403,8 +403,8 @@
                                         <div class="mobile-notification-wrapper bg-white">
                                             <div class="notification-message">
                                                 <div class="notification-heading">  
-                                                    <img src="<?php echo base_url();?>images/alsowise-logo-without-name.png" width="20"/>
-                                                    <label>Alsowise - <span>1m</span></label>
+                                                    <img src="<?php echo base_url();?>images/team-logo-without-name.png" width="20"/>
+                                                    <label>team - <span>1m</span></label>
                                                 </div>
                                                 <div id="dvInAppPreview"></div>
                                             </div>

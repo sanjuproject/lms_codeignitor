@@ -6086,7 +6086,7 @@ class Testingapi extends CI_Controller {
 
     public function service_call() {
         try {
-            $command = escapeshellcmd("python3 /var/www/vhosts/alsowise.com/httpdocs/python_services/generatescorecard.py");
+            $command = escapeshellcmd("python3 /var/www/vhosts/team.com/httpdocs/python_services/generatescorecard.py");
             shell_exec($command);
         } catch (Exception $e) {
             echo 'Message: ' . $e->getMessage();
@@ -6350,19 +6350,19 @@ class Testingapi extends CI_Controller {
                     if ($child->ss_aw_institution == 0) {
                         $text = " Below is our assessment of how <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "</b> performed in the Winners Programme, 
                                         a course that he recently completed. Our goal
-                                        at Alsowise is to provide your child with more than just a performance score on the curriculum. To that
+                                        at team is to provide your child with more than just a performance score on the curriculum. To that
                                         end we have included feedback on <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "'s</b> performance compared to that"
                                 . "      of the other users who have completed the same programme.";
                     } else {
                         $text = " Below is our assessment of how <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "</b> performed in the Winners Programme, 
                                         a course that he recently completed. Our goal
-                                        at Alsowise is to provide you with more than just a performance score on the curriculum. To that
+                                        at team is to provide you with more than just a performance score on the curriculum. To that
                                         end we have included feedback on <b>" . ucfirst(strtolower($child->ss_aw_child_first_name)) . "'s</b> performance compared to that "
                                 . "     of the other users who have completed the same programme.";
                     }
                 } else {
-                    $text = "Below is our assessment of how <b>you</b> performed in the ALSOWISE® Masters Programme, a course that you recently completed. 
-                        Our goal at Alsowise is to provide you with more than just a performance score on the curriculum.
+                    $text = "Below is our assessment of how <b>you</b> performed in the team® Masters Programme, a course that you recently completed. 
+                        Our goal at team is to provide you with more than just a performance score on the curriculum.
                         To that end we have included feedback on <b>your</b> performance compared to that of the other users who have completed the same programme.";
                 }
 

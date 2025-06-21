@@ -593,7 +593,7 @@ class Admin extends CI_Controller
 		$adduserdata['ss_aw_admin_user_role_ids'] = $user_role_ids;
 		$userid = $this->ss_aw_admin_users_model->data_insert($adduserdata);
 
-		$subject = "Alsowise Admin user login credential";
+		$subject = "team Admin user login credential";
 		$msg = "New admin user created.Login username : " . $email . " and password: " . $password;
 		sendmail($msg, $subject, $email);
 
@@ -1281,7 +1281,7 @@ class Admin extends CI_Controller
 				$subject = "Test mail for email template";
 			}
 			// send email
-			//$response = sendmail($msg, $subject, $email, 'deepanjan.das@gmail.com,ateesh@alsowise.com', $attachment);
+			//$response = sendmail($msg, $subject, $email, 'deepanjan.das@gmail.com,ateesh@team.com', $attachment);
 			//$response = sendmail($msg,$subject,$email,'deepanjan.das@gmail.com',$attachment);
 			$response = emailnotification($email, $subject, $msg);
 			if ($response) {
@@ -1375,7 +1375,7 @@ class Admin extends CI_Controller
 		} else {
 			if ($userid != 0) {
 				$rand = rand(1000, 9999);
-				$subject = "Alsowise admin user email valification";
+				$subject = "team admin user email valification";
 				$msg = "Email valification code : " . $rand;
 				$insertdata = array();
 				$insertdata['ss_aw_user_id'] = $userid;
@@ -1423,7 +1423,7 @@ class Admin extends CI_Controller
 		} else {
 			if ($userid != 0) {
 				$rand = rand(1000, 9999);
-				$subject = "Alsowise admin user mobile no valification";
+				$subject = "team admin user mobile no valification";
 				$msg = "Mobile valification code : " . $rand;
 				$insertdata = array();
 				$insertdata['ss_aw_user_id'] = $userid;
@@ -5317,7 +5317,7 @@ class Admin extends CI_Controller
 					if (!empty($email_template)) {
 						$body = $email_template['body'];
 						$body = str_ireplace("[@@puzzle_name@@]", $get_quiz_details->challange_type == 'crossword' ? 'CROSSWISE' : 'WORDWISE', $body);
-						$body = str_ireplace("[@@puzzle_url@@]", $get_quiz_details->challange_type == 'crossword' ? 'https://alsowise.com/awadmin/puzzles/crosswise/' : 'https://alsowise.com/awadmin/puzzles/wordwise/', $body);
+						$body = str_ireplace("[@@puzzle_url@@]", $get_quiz_details->challange_type == 'crossword' ? 'https://team.com/awadmin/puzzles/crosswise/' : 'https://team.com/awadmin/puzzles/wordwise/', $body);
 						if (!empty($notify_users)) {
 							foreach ($notify_users as $key => $value) {
 								$send_data = array(
@@ -6659,7 +6659,7 @@ class Admin extends CI_Controller
 							$body = str_ireplace("[@@password@@]", $postdata['password'], $body);
 							$send_data = array(
 								'ss_aw_email' => $postdata['email'],
-								'ss_aw_subject' => 'Welcome to ALSOWISE. Thank you for registering with us.',
+								'ss_aw_subject' => 'Welcome to team. Thank you for registering with us.',
 								'ss_aw_template' => $body,
 								'ss_aw_type' => 1
 							);
@@ -7061,7 +7061,7 @@ class Admin extends CI_Controller
 								$body = str_ireplace("[@@password@@]", $password, $body);
 								$body = str_ireplace("[@@email@@]", $email, $body);
 								$body = str_ireplace("[@@username@@]", $parent_name, $body);
-								emailnotification($email, 'Welcome to ALSOWISE. Thank you for registering with us.', $body);
+								emailnotification($email, 'Welcome to team. Thank you for registering with us.', $body);
 							}
 
 
@@ -8247,7 +8247,7 @@ class Admin extends CI_Controller
 			'ss_aw_admin_user_password' => $this->bcrypt->hash_password($random_password)
 		);
 		$this->ss_aw_admin_users_model->update_details($data);
-		$subject = "Alsowise Admin Reset Password";
+		$subject = "team Admin Reset Password";
 		$msg = "Password reset successfully.Your new password : " . $random_password;
 		emailnotification($email, $subject, $msg);
 		$this->session->set_flashdata('success','Password reset successfully.');

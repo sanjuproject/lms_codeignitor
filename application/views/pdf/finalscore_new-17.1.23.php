@@ -32,12 +32,12 @@
                         <table cellspacing="0" cellpadding="0" style="width: 100%;">
                             <tr>
                                 <td style="margin-bottom: 5px;text-align: center;">
-                                    <img src="<?= base_url(); ?>images/alsowise-logo-without-name.png" style="width: 150px;" alt="">
+                                    <img src="<?= base_url(); ?>images/team-logo-without-name.png" style="width: 150px;" alt="">
                                 </td>
                             </tr>
                             <tr>
                                 <td style="text-align: center;">
-                                    <img src="<?= base_url(); ?>images/alsowise-logo-text.png" style="width: 200px;" alt="">
+                                    <img src="<?= base_url(); ?>images/team-logo-text.png" style="width: 200px;" alt="">
                                 </td>
                             </tr>
                             <tr>
@@ -61,7 +61,7 @@
                                     <label for=""
                                            style="font-size: 24px;color: #797106;font-family: 'Roboto', sans-serif;font-weight: 300;">
 
-                                        ALSOWISE<span style="vertical-align:0.7em; font-size:0.6em;">&reg; </span> <?= $title ?> Programme</label>
+                                        team<span style="vertical-align:0.7em; font-size:0.6em;">&reg; </span> <?= $title ?> Programme</label>
                                 </td>
                             </tr>
                             <tr>

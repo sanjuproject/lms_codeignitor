@@ -1,7 +1,7 @@
 <meta charset="utf-8" />
-        <title>Log In | Alsowise</title>
+        <title>Log In | team</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta content="ALSOWISE" name="description" />
+        <meta content="team" name="description" />
         <meta content="Coderthemes" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->

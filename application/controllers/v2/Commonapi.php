@@ -258,7 +258,7 @@ public function faq()
 			 	$mobile = $child_details[0]->ss_aw_child_mobile;
 			 	$loginID = $child_details[0]->ss_aw_child_code;
 			 	
-			 	$subject = "Alsowise Feedback from ".$name;
+			 	$subject = "team Feedback from ".$name;
 			 	/*$msg .= "<br><br>";
 			 	$msg .= "Email Body:";
 			 	$msg .= "<br>";*/
@@ -272,7 +272,7 @@ public function faq()
 			 	$email = $parent_details[0]->ss_aw_parent_email;
 			 	$mobile = $parent_details[0]->ss_aw_parent_primary_mobile;
 			 	
-			 	$subject = "Alsowise Feedback from ".$name;
+			 	$subject = "team Feedback from ".$name;
 			 	/*$msg .= "<br><br>";
 			 	$msg .= "Email Body:";
 			 	$msg .= "<br>";*/
@@ -315,11 +315,11 @@ public function faq()
 			$msg .= "<br>";
 			$msg .= "Warm Regards";
 			$msg .= "<br>";
-			$msg .= "Alsowise™ Team";
+			$msg .= "team™ Team";
 	      //$subject = $inputpost['subject'];
-			$email = "ateesh@alsowise.com";
+			$email = "ateesh@team.com";
 			$bcc = "deepanjan@schemaphic.com"; // Send the mail to this account
-			$cc = "ateesh@alsowise.com";
+			$cc = "ateesh@team.com";
 			sendmail($msg,$subject,$email,$bcc,"",$cc);
 			//sendmail($msg,$subject,$email);
 			 
@@ -684,8 +684,8 @@ public function faq()
 					'protocol' => 'smtp',
 					'smtp_host' => 'smtpout.secureserver.net',
 					'smtp_port' => 465,
-					'smtp_user' => 'noreply@alsowise.com',
-					'smtp_pass' => 'Alsowise2021',
+					'smtp_user' => 'noreply@team.com',
+					'smtp_pass' => 'team2021',
 					'mailtype'  => 'html', 
 					'charset'   => 'utf-8',
 					'smtp_crypto' => 'ssl'
@@ -693,7 +693,7 @@ public function faq()
 				
 				$this->load->library('email', $config);
 				$this->email->set_newline("\r\n");
-				$this->email->from('noreply@alsowise.com', 'ALSOWISE');
+				$this->email->from('noreply@team.com', 'team');
 				$this->email->to("deepanjan.das@gmail.com");
 			
 				$this->email->subject('Test');

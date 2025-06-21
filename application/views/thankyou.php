@@ -16,7 +16,7 @@
     <div style="width: 100%;background-color: #f9ef7e;text-align: left;padding: 20px;box-sizing: border-box;">
 
         <div style="text-align:center">
-            <img src="https://techie-experts.co.in/alsowise/uploads/image_galary/y9EMvLWx7N35338.png" alt=""
+            <img src="https://techie-experts.co.in/team/uploads/image_galary/y9EMvLWx7N35338.png" alt=""
                 style="width: 250px;">
         </div>
 
@@ -46,18 +46,18 @@
             <p
                 style="font-family: 'Roboto', sans-serif;color: #576081;font-size: 16px;font-weight: 300;padding: 10px 0px 30px;margin:0;">
                 Warm Regards,<br><br>
-                The <strong>ALSOWISE&trade;</strong> Team</p>
+                The <strong>team&trade;</strong> Team</p>
 
             <p
                 style="font-family: 'Roboto', sans-serif;color: #576081;font-size: 14px;font-weight: 300;padding: 0px 0px;">
-                We respect your privacy. View our <a href="https://alsowise.com/awadmin/pages/privacy_policy"
+                We respect your privacy. View our <a href="https://team.com/awadmin/pages/privacy_policy"
                     target="_blank" style="text-decoration:underline;">Privacy Policy</a>.</p>
         </div>
 
         <div>
             <p
                 style="font-family: 'Roboto', sans-serif;color: #576081;font-size: 12px;font-weight: 300; margin-top:10px;text-align:center">
-                © 2022 Alsowise™. All rights reserved</p>
+                © 2022 team™. All rights reserved</p>
         </div>
 
     </div>

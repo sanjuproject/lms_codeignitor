@@ -20,3 +20,5 @@ application/logs/*
 /payment_invoice/*
 /nbproject/*
 /collection_report/*
+/assets/*
+/css/*

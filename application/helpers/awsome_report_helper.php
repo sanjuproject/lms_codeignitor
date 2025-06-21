@@ -394,34 +394,34 @@ function getDiagonStatement($diagonestic_percentage, $total_assesment_percent, $
     $string = '';
     if ($child_details->course_level == 'M') {
         if ($difference < -5) {
-            $string = "In the final analysis, your performance deteriorated over the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Master . "s programme. "
+            $string = "In the final analysis, your performance deteriorated over the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Master . "s programme. "
                 . "You needs to seriously consider purchasing supplementary courses do develop your English skills.";
         } elseif ($difference >= -5 && $difference < 5) {
-            $string = "In the final analysis, you have shown no improvement over the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Master . "s programme. "
+            $string = "In the final analysis, you have shown no improvement over the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Master . "s programme. "
                 . "In order to improve, You should review as much of the completed course work as you can over the next 30 days.";
         } elseif ($difference >= 5 && $difference <= 20) {
-            $string = "In the final analysis, you have shown some improvement over the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Master . "s programme. "
+            $string = "In the final analysis, you have shown some improvement over the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Master . "s programme. "
                 . "In order to improve, you should review as much of the completed course work as you can over the next 30 days.";
         } else {
-            $string = "In the final analysis, you have shown considerable improvement over the course of the  ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Master . "s programme. "
+            $string = "In the final analysis, you have shown considerable improvement over the course of the  team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Master . "s programme. "
                 . "In order to maintain your skills, you should continue the habit of reading regularly.";
         }
     } else {
         if ($difference < -5) {
             $string = "In the final analysis, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "'s</b> "
-                . "performance deteriorated over the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. You needs to seriously consider purchasing supplementary "
+                . "performance deteriorated over the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. You needs to seriously consider purchasing supplementary "
                 . "courses do develop <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "'s</b> English skills.";
         } elseif ($difference >= -5 && $difference < 5) {
             $string = "In the final analysis, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> has shown no improvement over "
-                . "the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to improve, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> should review as much "
+                . "the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to improve, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> should review as much "
                 . "of the completed course work as $he can over the next 30 days.";
         } elseif ($difference >= 5 && $difference <= 20) {
             $string = "In the final analysis, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> has shown some improvement "
-                . "over the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to improve, "
+                . "over the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to improve, "
                 . "<b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> should review as much of the completed course work as $he can over the next 30 days.";
         } else {
             $string = "In the final analysis, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> has shown considerable improvement "
-                . "over the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to maintain their skills, "
+                . "over the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to maintain their skills, "
                 . "<b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> should continue the habit of reading regularly.";
         }
     }
@@ -439,28 +439,28 @@ function getDiagonStatementmlp($diagonestic_percentage, $total_assesment_percent
         } elseif ($difference >= -5 && $difference < 5) {
             $string = "In the final analysis, you have shown a consistent performance over the course of the Masters Lite Programme. You should continue to practice your grammar and vocabulary skills through supplementary practice tests and programmes.";
         } elseif ($difference >= 5 && $difference <= 20) {
-            $string = "In the final analysis, you have shown some improvement over the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> Masters Lite programme. "
+            $string = "In the final analysis, you have shown some improvement over the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> Masters Lite programme. "
                 . "In order to improve, you should review as much of the completed course work as you can over the next 30 days.";
         } else {
-            $string = "In the final analysis, you have shown considerable improvement over the course of the  ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> Masters Lite programme. "
+            $string = "In the final analysis, you have shown considerable improvement over the course of the  team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> Masters Lite programme. "
                 . "In order to maintain your skills, you should continue the habit of reading regularly.";
         }
     } else {
         if ($difference < -5) {
             $string = "In the final analysis, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "'s</b> "
-                . "performance deteriorated over the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. You needs to seriously consider purchasing supplementary "
+                . "performance deteriorated over the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. You needs to seriously consider purchasing supplementary "
                 . "courses do develop <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "'s</b> English skills.";
         } elseif ($difference >= -5 && $difference < 5) {
             $string = "In the final analysis, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> has shown no improvement over "
-                . "the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to improve, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> should review as much "
+                . "the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to improve, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> should review as much "
                 . "of the completed course work as $he can over the next 30 days.";
         } elseif ($difference >= 5 && $difference <= 20) {
             $string = "In the final analysis, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> has shown some improvement "
-                . "over the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to improve, "
+                . "over the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to improve, "
                 . "<b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> should review as much of the completed course work as $he can over the next 30 days.";
         } else {
             $string = "In the final analysis, <b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> has shown considerable improvement "
-                . "over the course of the ALSOWISE<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to maintain their skills, "
+                . "over the course of the team<span style='vertical-align:0.7em; font-size:0.6em;'>&reg; </span> " . Winners . " programme. In order to maintain their skills, "
                 . "<b>" . ucfirst(strtolower($child_details->ss_aw_child_first_name)) . "</b> should continue the habit of reading regularly.";
         }
     }
@@ -490,7 +490,7 @@ function getreadalongcontainE($final_average, $child_details, $count)
         $let = lcfirst($you);
         $cont = "$you $was able to identify the correct answer <b>$final_average%</b> of the time and thus $C.";
     } else {
-        $cont = "Alsowise was unable to assess unaided recall because $you did not "
+        $cont = "team was unable to assess unaided recall because $you did not "
             . "complete any of the Readalong opportunities presented. Please remember that reading is "
             . "a critical skill that affects many competencies including self-learning, decision making "
             . "and knowledge transformation. ";
@@ -547,7 +547,7 @@ function getreadalongcontainEmlp($final_average, $child_details, $count)
         $let = lcfirst($you);
         $cont = "$you $was able to identify the correct answer <b>$final_average%</b> of the time and thus $C.";
     } else {
-        $cont = "Alsowise was unable to assess unaided recall because $you did not "
+        $cont = "team was unable to assess unaided recall because $you did not "
             . "complete any of the Readalong opportunities presented. Please remember that reading is "
             . "a critical skill that affects many competencies including self-learning, decision making "
             . "and knowledge transformation. ";
